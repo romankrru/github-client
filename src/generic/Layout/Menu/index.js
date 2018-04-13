@@ -8,7 +8,7 @@ const MainMenu = props => {
 
     return (
         <Menu>
-            <Menu.Item as={NavLink} to="/" name="Home" />
+            <Menu.Item as={NavLink} to="/" exact name="Home" />
             <Menu.Item as={NavLink} to="/discover" name="Discover"/>
 
             <Menu.Menu position="right">
