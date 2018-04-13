@@ -1,0 +1,7 @@
+.Notification {
+    width: 380px;
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
