@@ -4,7 +4,7 @@ import { ApolloProvider } from 'react-apollo';
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { HttpLink } from 'apollo-link-http';
 import { ApolloLink, concat } from 'apollo-link';
-import { Route, withRouter } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
 import { localStorageHelpers } from '../generic/helpers'
 import Layout from '../generic/Layout';
@@ -41,4 +41,4 @@ const App = props => {
   )
 };
 
-export default withAuthRequired(withRouter(App));
+export default withAuthRequired(App);

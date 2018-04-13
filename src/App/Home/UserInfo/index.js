@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Icon, Image, Table, Grid } from 'semantic-ui-react';
+import { Card, Icon, Image } from 'semantic-ui-react';
 import moment from 'moment';
 
 import {DATE_FORMAT_M_D_Y} from '../../../settings';
