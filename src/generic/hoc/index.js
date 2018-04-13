@@ -1,0 +1,1 @@
+export {default as withAuthRequired} from './with-auth-required';

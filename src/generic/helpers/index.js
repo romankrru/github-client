@@ -1,0 +1,1 @@
+export {default as localStorageHelpers} from './local-storage';
