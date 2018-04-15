@@ -10,6 +10,13 @@ query getRepositories($queryString: String!) {
               id
               name
               description
+              languages(first: 1) {
+                edges {
+                  node {
+                    name
+                  }
+                }
+              }
               stargazers {
                 totalCount
               }
