@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "apollo-cache-inmemory": "^1.1.12",
+    "apollo-client": "^2.2.8",
     "apollo-link": "^1.2.2",
     "apollo-link-http": "^1.5.4",
     "autoprefixer": "7.1.6",
@@ -32,6 +34,7 @@
     "graphql-tag": "^2.8.0",
     "html-webpack-plugin": "2.29.0",
     "jest": "20.0.4",
+    "lodash": "^4.17.5",
     "moment": "^2.22.0",
     "object-assign": "4.1.1",
     "postcss-flexbugs-fixes": "3.2.0",
