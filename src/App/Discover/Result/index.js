@@ -5,8 +5,6 @@ import { Card, Icon } from 'semantic-ui-react'
 import styles from './assets/index.css';
 
 const Result = props => {
-    console.log(props);
-
     return (
         <Card.Group itemsPerRow={3}>
             {
@@ -23,7 +21,9 @@ const Result = props => {
                             />
                             
                             <Card.Content extra>
-                                <Icon name='star' /> {edge.node.stargazers.totalCount}
+                                {edge.node.languages.edges[0].node.name} {' | '}
+                                <Icon name='star' /> {edge.node.stargazers.totalCount} {' | '}
+                                <Icon name='fork' /> {edge.node.forks.totalCount}                                
                             </Card.Content>
                         </Card>
                     )
