@@ -5,6 +5,7 @@ export default (params) => {
 
     const transformedFilters = fp.flow(
         fp.keys,
+        fp.filter(key => filters[key]),
         fp.map(key => `${key}:${filters[key]}`),
         fp.join(' '),
     )(filters);
