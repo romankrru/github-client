@@ -1,10 +1,13 @@
 import React from 'react';
 import { Form, Segment } from 'semantic-ui-react'
 
-const options = [
-    { key: 'JavaScript', text: 'JavaScript', value: 'JavaScript' },
-    { key: 'Elm', text: 'Elm', value: 'Elm' },
-];
+import { programmingLanguages } from '../../../settings';
+
+const propgramminLanguagesOptions = programmingLanguages.map(language => ({
+    key: language,
+    text: language,
+    value: language,
+}));
 
 const Filter = props => {
     return (
@@ -15,13 +18,13 @@ const Filter = props => {
                 <Form.Select
                     label='Language'
                     defaultValue="JavaScript"
-                    options={options}
+                    options={propgramminLanguagesOptions}
                 />
 
                 <Form.Select
                     label='Stars'
                     defaultValue="JavaScript"
-                    options={options}
+                    options={propgramminLanguagesOptions}
                 />
             </Form>
         </Segment>
