@@ -3,7 +3,7 @@ import { Message } from 'semantic-ui-react';
 import { compose, branch, renderNothing, lifecycle } from 'recompact';
 
 import Portal from '../Portal';
-import {NOTIFICATION_TIMEOUT} from '../../settings';
+import { NOTIFICATION_TIMEOUT } from '../../settings';
 import styles from './assets/index.css';
 
 

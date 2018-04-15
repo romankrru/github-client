@@ -3,7 +3,7 @@ const load = (itemName) => {
         const serailizedItem = localStorage.getItem(itemName);
 
         if (serailizedItem === null) {
-        return undefined;
+            return undefined;
         }
 
         return JSON.parse(serailizedItem);

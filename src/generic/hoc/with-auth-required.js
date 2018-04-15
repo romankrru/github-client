@@ -1,7 +1,7 @@
 import React from 'react';
-import {Redirect} from 'react-router';
+import { Redirect } from 'react-router';
 
-import {localStorageHelpers} from '../helpers';
+import { localStorageHelpers } from '../helpers';
 
 const withAuthRequired = BaseComponent => {
   const WithAuthRequired = props => localStorageHelpers.load('AUTH_TOKEN')

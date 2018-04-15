@@ -9,48 +9,46 @@ import styles from './assets/index.css';
 
 const base64 = require('base-64');
 
-const Auth = props => {
-    return (
-        <div className={styles.Login}>
-            <h1>Sign in via Github</h1>
+const Auth = props => (
+    <div className={styles.Login}>
+        <h1>Sign in via Github</h1>
 
-            <Form>
-                <Form.Field
-                    control={Input}
-                    label="Login"
-                    name="login"
-                    placeholder="Login"
-                    onChange={props.onChange}
-                    value={props.form.login}
-                />
-
-                <Form.Field
-                    control={Input}
-                    label='Password'
-                    name="password"
-                    placeholder='Password'
-                    onChange={props.onChange}
-                    type="password"
-                    value={props.form.password}
-                />
-
-                <Button
-                    onClick={props.signIn}
-                    primary
-                    className={styles.Button}
-                    disabled={!props.isValid || props.isLoading}
-                    loading={props.isLoading}
-                >Sign in</Button>
-            </Form>
-
-            <Notification
-                shownAt={props.errorNotifiactionShownAt}
-                color="red"
-                text="Invalid login or password"
+        <Form>
+            <Form.Field
+                control={Input}
+                label="Login"
+                name="login"
+                placeholder="Login"
+                onChange={props.onChange}
+                value={props.form.login}
             />
-        </div>
-    );
-};
+
+            <Form.Field
+                control={Input}
+                label='Password'
+                name="password"
+                placeholder='Password'
+                onChange={props.onChange}
+                type="password"
+                value={props.form.password}
+            />
+
+            <Button
+                onClick={props.signIn}
+                primary
+                className={styles.Button}
+                disabled={!props.isValid || props.isLoading}
+                loading={props.isLoading}
+            >Sign in</Button>
+        </Form>
+
+        <Notification
+            shownAt={props.errorNotifiactionShownAt}
+            color="red"
+            text="Invalid login or password"
+        />
+    </div>
+);
 
 export default compose(
     withStateHandlers(

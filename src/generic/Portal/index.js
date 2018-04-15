@@ -12,5 +12,5 @@ export default compose(
     lifecycle({
         componentDidMount() {this.props.rootSelector.appendChild(this.props.container)},
         componentWillUnmount() {this.props.rootSelector.removeChild(this.props.container)},
-    })
+    }),
 )(Portal);

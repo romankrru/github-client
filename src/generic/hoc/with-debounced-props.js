@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, { PureComponent } from 'react';
 
 const withDebouncedProps = ({ debounce = 0, propNames = [] }) => WrappedComponent => class WithDebouncedProps extends PureComponent {
   static displayName = `withDebouncedProps(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`

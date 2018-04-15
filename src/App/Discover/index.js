@@ -18,37 +18,35 @@ const defaultFilters = {
     size: '',
 };
 
-const Discover = props => {
-    return (
-        <Grid>
-            <Grid.Row>
-                <Grid.Column>
-                    <SearchBox
-                        loading={props.data.loading}
-                        value={props.searchBox}
-                        onChange={props.handleInputChange}
-                    />
-                </Grid.Column>
-            </Grid.Row>
+const Discover = props => (
+    <Grid>
+        <Grid.Row>
+            <Grid.Column>
+                <SearchBox
+                    loading={props.data.loading}
+                    value={props.searchBox}
+                    onChange={props.handleInputChange}
+                />
+            </Grid.Column>
+        </Grid.Row>
 
-            {props.data.search && <Grid.Row>
-                <Grid.Column width={4}>
-                    <Filter
-                        filters={props.filters}
-                        handleFilterChange={props.handleFilterChange}
-                        resetFilters={props.resetFilters}
-                    />
-                </Grid.Column>
+        {props.data.search && <Grid.Row>
+            <Grid.Column width={4}>
+                <Filter
+                    filters={props.filters}
+                    handleFilterChange={props.handleFilterChange}
+                    resetFilters={props.resetFilters}
+                />
+            </Grid.Column>
 
-                <Grid.Column width={12}>
-                    <Result
-                        data={props.data.search.edges}
-                    />
-                </Grid.Column>
-            </Grid.Row>}
-        </Grid>
-    );
-};
+            <Grid.Column width={12}>
+                <Result
+                    data={props.data.search.edges}
+                />
+            </Grid.Column>
+        </Grid.Row>}
+    </Grid>
+);
 
 export default compose(
     withStateHandlers(

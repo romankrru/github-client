@@ -27,18 +27,16 @@ const authMiddleware = new ApolloLink((operation, forward) => {
 
 const client = new ApolloClient({
   link: concat(authMiddleware, httpLink),
-  cache: new InMemoryCache()
+  cache: new InMemoryCache(),
 });
 
-const App = props => {
-  return (
-    <ApolloProvider client={client}>
-      <Layout>
-        <Route path="/" exact component={Home} />
-        <Route path="/discover" component={Discover} />
-      </Layout>
-    </ApolloProvider>
-  )
-};
+const App = props => (
+  <ApolloProvider client={client}>
+    <Layout>
+      <Route path="/" exact component={Home} />
+      <Route path="/discover" component={Discover} />
+    </Layout>
+  </ApolloProvider>
+);
 
 export default withAuthRequired(App);
