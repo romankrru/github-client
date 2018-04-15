@@ -6,7 +6,7 @@ const SearchBox = props => {
     return (
         <Form>
             <Form.Input
-                label='Search by user or organisation'
+                label='Search by repository'
                 placeholder='Search...'
                 loading={props.loading}
                 value={props.value}

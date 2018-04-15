@@ -59,7 +59,7 @@ export default compose(
 
     graphql(query, {
         options: props => ({variables: {"queryString": transformToGithubQueryString({
-            search: props.searchBox,
+            search: props.searchBoxDebounced,
             filters: props.filters,
         })}})
     }),
