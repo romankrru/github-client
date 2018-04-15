@@ -23,5 +23,5 @@ export default [
   'Shell',
   'Swift',
   'TeX',
-  'Vim script'
+  'Vim script',
 ];
