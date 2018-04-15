@@ -3,19 +3,16 @@ import { Menu } from 'semantic-ui-react'
 import { NavLink, Link } from 'react-router-dom';
 
 
-const MainMenu = props => {
-    console.log(props)
+const MainMenu = props => (
+    <Menu>
+        <Menu.Item as={NavLink} to="/" exact name="Home" />
+        <Menu.Item as={NavLink} to="/discover" name="Discover"/>
 
-    return (
-        <Menu>
-            <Menu.Item as={NavLink} to="/" exact name="Home" />
-            <Menu.Item as={NavLink} to="/discover" name="Discover"/>
+        <Menu.Menu position="right">
+            <Menu.Item as={Link} to="/logout" name="Logout" />
+        </Menu.Menu>
+    </Menu>
+);
 
-            <Menu.Menu position="right">
-                <Menu.Item as={Link} to="/logout" name="Logout" />
-            </Menu.Menu>
-        </Menu>
-    );
-};
 
 export default MainMenu;
