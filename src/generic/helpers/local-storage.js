@@ -25,7 +25,10 @@ const save = (itemName, item) => {
     }
 };
 
+const remove = itemName => localStorage.removeItem(itemName);
+
 export default {
     save,
     load,
+    remove,
 };
