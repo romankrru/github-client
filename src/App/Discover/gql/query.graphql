@@ -1,6 +1,3 @@
-import gql from 'graphql-tag';
-
-export default gql`
 query getRepositories($queryString: String!) {
   search (query: $queryString, type: REPOSITORY, first: 30) {
       repositoryCount
@@ -28,4 +25,4 @@ query getRepositories($queryString: String!) {
           }
       }
   }
-}`;
+}

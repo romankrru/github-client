@@ -8,7 +8,7 @@ import { transformToGithubQueryString } from '../../generic/helpers';
 import SearchBox from './SearchBox';
 import Result from './Result';
 import Filter from './Filter';
-import query from './gql/query';
+import query from './gql/query.graphql';
 
 const defaultFilters = {
     language: 'JavaScript',
@@ -61,7 +61,7 @@ export default compose(
             handleFilterChange: props => (_, data) => ({
                 filters: {
                     ...props.filters,
-                    [data.name]: data.value,  
+                    [data.name]: data.value,
                 },
             }),
 

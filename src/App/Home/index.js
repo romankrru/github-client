@@ -3,7 +3,7 @@ import { graphql } from 'react-apollo';
 import { Grid } from 'semantic-ui-react';
 import {compose, branch, renderComponent} from 'recompact';
 
-import query from './gql/query';
+import query from './gql/query.graphql';
 import UserInfo from './UserInfo';
 import RepositoriesTable from './RepositoriesTable';
 import Loader from '../../generic/Loader';
