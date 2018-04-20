@@ -1,13 +1,12 @@
 import React from 'react';
 import { Form, Input, Button } from 'semantic-ui-react'
 import { compose, withStateHandlers, withHandlers, withPropsOnChange } from 'recompact';
+import base64 from 'base-64';
 
 import { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, AUTH_URL_PATH } from '../settings';
 import { localStorageHelpers } from '../generic/helpers';
 import Notification from '../generic/Notification';
 import styles from './assets/index.css';
-
-const base64 = require('base-64');
 
 const Auth = props => (
     <div className={styles.Login}>
