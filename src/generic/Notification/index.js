@@ -4,19 +4,24 @@ import { compose, branch, renderNothing, lifecycle } from 'recompact';
 
 import Portal from '../Portal';
 import { NOTIFICATION_TIMEOUT } from '../../settings';
+import { withTransition } from '../hoc';
 import styles from './assets/index.css';
 
 
-const Notification = (props) => (
+const Notification = props => (
     <Portal>
         <Message
-            className={styles.Notification}
+            className={[
+                styles.Notification,
+                styles[`Notification-${props.transitionState}`]
+            ].join(' ')}
+
             color={props.color}
         >
             {props.text}
         </Message>
     </Portal>
-);
+)
 
 export default compose(
     lifecycle({
@@ -38,8 +43,10 @@ export default compose(
         },
     }),
 
+    withTransition({inProp: props => props.isShown}),
+
     branch(
-        props => !props.isShown,
+        props => props.transitionState === 'exited',
         renderNothing,
     ),
 )(Notification);

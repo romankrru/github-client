@@ -7,7 +7,7 @@ export default config => BaseComponent => props => {
     <Transition
       in={_.isFunction(config.inProp) ? config.inProp(props) : config.inProp}
       // FIXME: Move to settings
-      timeout={300}
+      timeout={200}
     >
       {(state) => {
         return (
