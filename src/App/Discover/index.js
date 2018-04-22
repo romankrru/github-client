@@ -73,7 +73,7 @@ export default compose(
     withDebouncedProps({ debounce: 300, propNames: ['searchBox', 'filters'] }),
 
     graphql(query, {
-        options: props => ({variables: {"queryString": transformToGithubQueryString({
+        options: props => ({variables: {queryString: transformToGithubQueryString({
             search: props.searchBoxDebounced,
             filters: props.filtersDebounced,
         })}}),

@@ -21,7 +21,7 @@ const Notification = props => (
             {props.text}
         </Message>
     </Portal>
-)
+);
 
 export default compose(
     lifecycle({
