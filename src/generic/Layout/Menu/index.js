@@ -1,9 +1,11 @@
+// @flow
+
 import React from 'react'
 import { Menu } from 'semantic-ui-react'
 import { NavLink, Link } from 'react-router-dom';
 
 
-const MainMenu = props => (
+const MainMenu = () => (
     <Menu>
         <Menu.Item as={NavLink} to="/" exact name="Home" />
         <Menu.Item as={NavLink} to="/discover" name="Discover"/>
