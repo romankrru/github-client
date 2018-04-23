@@ -3,7 +3,6 @@ import { Icon, Table } from 'semantic-ui-react';
 import moment from 'moment';
 
 const RepositoriesTable = props => {
-	console.log(props)
 	return (
 		<Table celled striped>
 			<Table.Header>
