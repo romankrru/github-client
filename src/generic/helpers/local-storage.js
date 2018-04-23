@@ -1,18 +1,20 @@
-const load = (itemName) => {
+// @flow
+
+const load = (itemName: string): any => {
     try {
         const serailizedItem = localStorage.getItem(itemName);
 
-        if (serailizedItem === null) {
-            return undefined;
+        if (serailizedItem) {
+            return JSON.parse(serailizedItem);
         }
 
-        return JSON.parse(serailizedItem);
+        return undefined;
     } catch (err) {
         return undefined;
     }
 };
 
-const save = (itemName, item) => {
+const save = (itemName: string, item: any): void => {
     try {
         const serializedItem = JSON.stringify(item);
 
@@ -25,7 +27,7 @@ const save = (itemName, item) => {
     }
 };
 
-const remove = itemName => localStorage.removeItem(itemName);
+const remove = (itemName: string): void => localStorage.removeItem(itemName);
 
 export default {
     save,
