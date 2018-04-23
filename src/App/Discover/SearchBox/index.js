@@ -1,7 +1,13 @@
+// @flow
+
 import React from 'react';
 import { Form } from 'semantic-ui-react';
 
-const SearchBox = props => (
+const SearchBox = (props: {
+    loading: boolean,
+    value: ?string,
+    onChange: Function,
+}) => (
     <Form>
         <Form.Input
             label='Search by repository'
