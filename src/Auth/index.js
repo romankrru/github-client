@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import { Form, Input, Button } from 'semantic-ui-react'
 import { compose, withStateHandlers, withHandlers, withPropsOnChange } from 'recompact';
@@ -8,7 +10,17 @@ import { localStorageHelpers } from '../generic/helpers';
 import Notification from '../generic/Notification';
 import styles from './assets/index.css';
 
-const Auth = props => (
+const Auth = (props: {
+    onChange: Function,
+    signIn: Function,
+    isLoading: boolean,
+    isValid: boolean,
+    errorNotifiactionShownAt: string,
+    form: {
+        login: string,
+        password: string,
+    },
+}) => (
     <div className={styles.Login}>
         <h1>Sign in via Github</h1>
 
