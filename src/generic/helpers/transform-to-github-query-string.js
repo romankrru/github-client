@@ -1,6 +1,11 @@
+// @flow
+
 import fp from 'lodash/fp';
 
-export default (params) => {
+export default (params: {
+    search: string,
+    filters: Object,
+}) => {
     const {search, filters} = params;
 
     const transformedFilters = fp.flow(
