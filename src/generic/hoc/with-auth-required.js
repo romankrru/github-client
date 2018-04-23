@@ -1,10 +1,12 @@
-import React from 'react';
+// @flow
+
+import * as React from 'react';
 import { Redirect, Route } from 'react-router';
 
 import { localStorageHelpers } from '../helpers';
 
-const withAuthRequired = BaseComponent => {
-  const WithAuthRequired = props => (
+const withAuthRequired = (BaseComponent: React.ComponentType<any>) => {
+  const WithAuthRequired = (props: Object) => (
     <Route render={({location}) => {
       if (location.pathname === '/auth') {
         return null;
