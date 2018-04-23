@@ -1,10 +1,20 @@
+// @flow
+
 import React from 'react';
 import { Card, Icon, Image } from 'semantic-ui-react';
 import moment from 'moment';
 
 import { DATE_FORMAT_M_D_Y } from '../../../settings';
 
-const UserInfo = props => (
+const UserInfo = (props: {
+    data: {
+        avatarUrl: string,
+        login: string,
+        createdAt: string,
+        bio: ?string,
+        repositories: {totalCount: number}
+    }
+}) => (
     <Card>
         <Image src={props.data.avatarUrl} />
 
