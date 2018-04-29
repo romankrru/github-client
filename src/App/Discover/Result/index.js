@@ -5,20 +5,11 @@ import _ from 'lodash'
 import { Card, Icon } from 'semantic-ui-react'
 
 import styles from './assets/index.css';
+import type { TRepo } from '../typedefs';
 
 const Result = (props: {
     openDetailsModal: Function,
-
-    data: Array<{
-        node: {
-            id: string,
-            name: string,
-            description: ?string,
-            languages: {edges: Array<{node: {name: string}}>},
-            stargazers: {totalCount: number},
-            forks: {totalCount: number},
-        }
-    }>
+    data: Array<{ node: TRepo }>
 }) => (
     <Card.Group itemsPerRow={3}>
         {props.data.map(edge => (
