@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import { Grid } from 'semantic-ui-react';
 import { graphql } from 'react-apollo';

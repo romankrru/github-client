@@ -7,5 +7,6 @@
 [lints]
 
 [options]
+module.name_mapper='.*\(.graphql\)' -> 'empty/object'
 
 [strict]
