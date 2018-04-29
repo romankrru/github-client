@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import { branch, renderNothing }  from 'recompact';
 import { Button, Header, Icon, Modal, List, Table } from 'semantic-ui-react';
@@ -5,7 +6,19 @@ import moment from 'moment';
 
 import { DATE_FORMAT_WITH_HOURS } from '../../../settings';
 
-const DetailsModal = props => {
+const DetailsModal = (props: {
+	isOpen: boolean,
+	close: Function,
+
+	data: {
+		name: string,
+		description: string,
+		forks: {totalCount: number},
+		stargazers: {totalCount: number},
+		updatedAt: string,
+		languages: {edges: Array<{node: {name: string}}>}
+	},
+}) => {
 	return (
 		<Modal
 			open={props.isOpen}
