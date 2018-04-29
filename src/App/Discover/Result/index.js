@@ -1,5 +1,4 @@
 // @flow
-
 import React from 'react';
 import _ from 'lodash'
 import { Card, Icon } from 'semantic-ui-react'

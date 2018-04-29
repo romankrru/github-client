@@ -78,7 +78,6 @@ export default compose(
         {
             searchBox: '',
             filters: defaultFilters,
-
             isDetailsModalOpen: false,
             detailsModalData: null,
         },
@@ -100,7 +99,6 @@ export default compose(
             }),
 
             resetFilters: () => () => ({filters: defaultFilters}),
-
             openDetailsModal: () => (data: TRepo) => ({ isDetailsModalOpen: true, detailsModalData: data }),
             closeDetailsModal: () => () => ({ isDetailsModalOpen: false, detailsModalData: null }),
         },
