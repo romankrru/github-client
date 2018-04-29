@@ -7,6 +7,8 @@ import { Card, Icon } from 'semantic-ui-react'
 import styles from './assets/index.css';
 
 const Result = (props: {
+    openDetailsModal: Function,
+
     data: Array<{
         node: {
             id: string,
@@ -21,7 +23,7 @@ const Result = (props: {
     <Card.Group itemsPerRow={3}>
         {props.data.map(edge => (
             <Card key={edge.node.id}>
-                <Card.Content header={edge.node.name} />
+                <Card.Content header={edge.node.name} onClick={() => props.openDetailsModal(edge.node)} />
 
                 <Card.Content
                     className={styles.CardDescription}

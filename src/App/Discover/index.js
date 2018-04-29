@@ -6,6 +6,7 @@ import { compose, withStateHandlers } from 'recompact';
 import { withDebouncedProps } from '../../generic/hoc';
 import { transformToGithubQueryString } from '../../generic/helpers';
 import SearchBox from './SearchBox';
+import DetailsModal from './DetailsModal';
 import Result from './Result';
 import Filter from './Filter';
 import query from './gql/query.graphql';
@@ -30,6 +31,12 @@ const Discover = props => (
             </Grid.Column>
         </Grid.Row>
 
+        <DetailsModal
+            isOpen={props.isDetailsModalOpen}
+            close={props.closeDetailsModal}
+            data={props.detailsModalData}
+        />
+
         {props.data.search && <Grid.Row>
             <Grid.Column width={4}>
                 <Filter
@@ -42,6 +49,7 @@ const Discover = props => (
             <Grid.Column width={12}>
                 <Result
                     data={props.data.search.edges}
+                    openDetailsModal={props.openDetailsModal}
                 />
             </Grid.Column>
         </Grid.Row>}
@@ -53,6 +61,9 @@ export default compose(
         {
             searchBox: '',
             filters: defaultFilters,
+
+            isDetailsModalOpen: false,
+            detailsModalData: null,
         },
 
         {
@@ -66,6 +77,9 @@ export default compose(
             }),
 
             resetFilters: () => () => ({filters: defaultFilters}),
+
+            openDetailsModal: () => (data) => ({ isDetailsModalOpen: true, detailsModalData: data }),
+            closeDetailsModal: () => () => ({ isDetailsModalOpen: false, detailsModalData: null }),
         },
     ),
 
