@@ -1,10 +1,11 @@
+
 import React from 'react';
 import { Message } from 'semantic-ui-react';
 import { compose, branch, renderNothing, lifecycle } from 'recompact';
 
 import Portal from '../Portal';
 import { NOTIFICATION_TIMEOUT } from '../../settings';
-import { withTransition } from '../hoc';
+import { withTransitionState } from '../hoc';
 import styles from './assets/index.css';
 
 
@@ -43,7 +44,7 @@ export default compose(
         },
     }),
 
-    withTransition({inProp: props => props.isShown}),
+    withTransitionState({inProp: props => props.isShown}),
 
     branch(
         props => props.transitionState === 'exited',
