@@ -1,4 +1,4 @@
-
+// @flow
 import React from 'react';
 import { Message } from 'semantic-ui-react';
 import { compose, branch, renderNothing, lifecycle } from 'recompact';
@@ -8,8 +8,11 @@ import { NOTIFICATION_TIMEOUT } from '../../settings';
 import { withTransitionState } from '../hoc';
 import styles from './assets/index.css';
 
-
-const Notification = props => (
+const Notification = (props: {
+    color: ?string,
+    text: ?string,
+    transitionState: 'entering' | 'entered' | 'exiting' | 'exited',
+}) => (
     <Portal>
         <Message
             className={[
