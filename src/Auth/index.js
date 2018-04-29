@@ -1,5 +1,4 @@
 // @flow
-
 import React from 'react';
 import { Form, Input, Button } from 'semantic-ui-react'
 import { compose, withStateHandlers, withHandlers, withPropsOnChange } from 'recompact';
@@ -70,7 +69,7 @@ export default compose(
         },
 
         {
-            onChange: props => (_, data) => ({form: {
+            onChange: props => (_, data: {name: string, value: string}) => ({form: {
                 ...props.form,
                 [data.name]: data.value
             }}),
