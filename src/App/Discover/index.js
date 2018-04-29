@@ -11,7 +11,7 @@ import DetailsModal from './DetailsModal';
 import Result from './Result';
 import Filter from './Filter';
 import query from './gql/query.graphql';
-import { TRepo } from './typedefs';
+import type { TRepo } from './typedefs';
 
 const defaultFilters = {
     language: 'JavaScript',
@@ -24,7 +24,7 @@ const defaultFilters = {
 const Discover = (props: {
     data: {
         loading: boolean,
-        search?: { edges: Array<TRepo> },
+        search?: { edges: Array<{node: TRepo}> },
     },
 
     isDetailsModalOpen: boolean,
