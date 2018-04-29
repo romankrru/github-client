@@ -11,6 +11,7 @@ import DetailsModal from './DetailsModal';
 import Result from './Result';
 import Filter from './Filter';
 import query from './gql/query.graphql';
+import { TRepo } from './typedefs';
 
 const defaultFilters = {
     language: 'JavaScript',
@@ -20,7 +21,22 @@ const defaultFilters = {
     size: '',
 };
 
-const Discover = props => (
+const Discover = (props: {
+    data: {
+        loading: boolean,
+        search?: { edges: Array<TRepo> },
+    },
+
+    isDetailsModalOpen: boolean,
+    closeDetailsModal: Function,
+    detailsModalData?: TRepo,
+    openDetailsModal: Function,
+    searchBox: string,
+    handleInputChange: Function,
+    handleFilterChange: Function,
+    resetFilters: Function,
+    filters: { [filter_name: string]: string },
+}) => (
     <Grid>
         <Grid.Row>
             <Grid.Column>
@@ -68,9 +84,15 @@ export default compose(
         },
 
         {
-            handleInputChange: () => (_, data) => ({[data.name]: data.value}),
+            handleInputChange: () => (_, data: {
+                name: string,
+                value: string
+            }) => ({[data.name]: data.value}),
 
-            handleFilterChange: props => (_, data) => ({
+            handleFilterChange: props => (_, data: {
+                name: string,
+                value: string,
+            }) => ({
                 filters: {
                     ...props.filters,
                     [data.name]: data.value,
@@ -79,7 +101,7 @@ export default compose(
 
             resetFilters: () => () => ({filters: defaultFilters}),
 
-            openDetailsModal: () => (data) => ({ isDetailsModalOpen: true, detailsModalData: data }),
+            openDetailsModal: () => (data: TRepo) => ({ isDetailsModalOpen: true, detailsModalData: data }),
             closeDetailsModal: () => () => ({ isDetailsModalOpen: false, detailsModalData: null }),
         },
     ),
