@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import { Form, Segment, Button } from 'semantic-ui-react'
 
@@ -9,7 +10,12 @@ const propgramminLanguagesOptions = programmingLanguages.map(language => ({
     value: language,
 }));
 
-const Filter = props => (
+const Filter = (props: {
+    filters: { [filter_name: string]: string },
+    handleFilterChange: Function,
+    resetFilters: Function,
+    isLoading: boolean,
+}) => (
     <Segment>
         <Form>
             <h3>Additional filters:</h3>
