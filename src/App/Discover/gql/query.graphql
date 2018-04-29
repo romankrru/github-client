@@ -8,7 +8,7 @@ query getRepositories($queryString: String!) {
               name
               description
               url
-              languages(first: 1) {
+              languages(first: 4) {
                 edges {
                   node {
                     name
