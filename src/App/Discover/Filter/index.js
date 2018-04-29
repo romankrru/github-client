@@ -57,6 +57,7 @@ const Filter = props => (
                 content="Reset filters"
                 color="red"
                 onClick={props.resetFilters}
+                disabled={props.isLoading}
                 fluid
             />
         </Form>
