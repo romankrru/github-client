@@ -6,7 +6,7 @@ export default (params: {
     search: string,
     filters: Object,
 }) => {
-    const {search, filters} = params;
+    const { search, filters } = params;
 
     const transformedFilters = fp.flow(
         fp.keys,
@@ -15,5 +15,5 @@ export default (params: {
         fp.join(' '),
     )(filters);
 
-    return `${search} ${transformedFilters}`
+    return `${search} ${transformedFilters}`;
 };

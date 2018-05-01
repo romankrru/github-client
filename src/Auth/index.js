@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { Form, Input, Button } from 'semantic-ui-react'
+import { Form, Input, Button } from 'semantic-ui-react';
 import { compose, withStateHandlers, withHandlers, withPropsOnChange } from 'recompact';
 import base64 from 'base-64';
 
@@ -35,9 +35,9 @@ const Auth = (props: {
 
             <Form.Field
                 control={Input}
-                label='Password'
+                label="Password"
                 name="password"
-                placeholder='Password'
+                placeholder="Password"
                 onChange={props.onChange}
                 type="password"
                 value={props.form.password}
@@ -49,7 +49,8 @@ const Auth = (props: {
                 className={styles.Button}
                 disabled={!props.isValid || props.isLoading}
                 loading={props.isLoading}
-            >Sign in</Button>
+            >Sign in
+            </Button>
         </Form>
 
         <Notification
@@ -63,24 +64,28 @@ const Auth = (props: {
 export default compose(
     withStateHandlers(
         {
-            form: { login: '', password:  ''},
+            form: { login: '', password: '' },
             errorNotifiactionShownAt: '',
             isLoading: false,
         },
 
         {
-            onChange: props => (_, data: {name: string, value: string}) => ({form: {
-                ...props.form,
-                [data.name]: data.value
-            }}),
+            onChange: props => (_, data: {name: string, value: string}) => ({
+                form: {
+                    ...props.form,
+                    [data.name]: data.value,
+                },
+            }),
 
-            resetPassword: props => () => ({form: {
-                ...props.form,
-                password: '',
-            }}),
+            resetPassword: props => () => ({
+                form: {
+                    ...props.form,
+                    password: '',
+                },
+            }),
 
-            showErrorNotification: () => () => ({errorNotifiactionShownAt: new Date()}),
-            setIsLoading: () => value => ({isLoading: value}),
+            showErrorNotification: () => () => ({ errorNotifiactionShownAt: new Date() }),
+            setIsLoading: () => value => ({ isLoading: value }),
         },
     ),
 
@@ -95,21 +100,21 @@ export default compose(
                 method: 'POST',
 
                 headers: {
-                  Authorization: `Basic ${encoded}`,
-                  'User-Agent': 'GitHub Issue Browser',
-                  'Content-Type': 'application/json; charset=utf-8',
-                  Accept: 'application/vnd.github.inertia-preview+json',
+                    Authorization: `Basic ${encoded}`,
+                    'User-Agent': 'GitHub Issue Browser',
+                    'Content-Type': 'application/json; charset=utf-8',
+                    Accept: 'application/vnd.github.inertia-preview+json',
                 },
 
                 body: JSON.stringify({
-                  client_id: GITHUB_CLIENT_ID,
-                  client_secret: GITHUB_CLIENT_SECRET,
-                  scopes: ['user', 'repo', 'read:org'],
-                  note: 'not abuse',
+                    client_id: GITHUB_CLIENT_ID,
+                    client_secret: GITHUB_CLIENT_SECRET,
+                    scopes: ['user', 'repo', 'read:org'],
+                    note: 'not abuse',
                 }),
             })
                 .then(res => res.json())
-                .then(json => {
+                .then((json) => {
                     props.setIsLoading(false);
 
                     if (!json.token) {
@@ -126,6 +131,6 @@ export default compose(
 
     withPropsOnChange(
         'form',
-        props => ({isValid: props.form.password.length > 0 && props.form.login.length > 0}),
+        props => ({ isValid: props.form.password.length > 0 && props.form.login.length > 0 }),
     ),
 )(Auth);

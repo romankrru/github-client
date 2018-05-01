@@ -1,6 +1,8 @@
+/* eslint-disable */
+
 // @flow
 import React from 'react';
-import { Form, Segment, Button } from 'semantic-ui-react'
+import { Form, Segment, Button } from 'semantic-ui-react';
 
 import { programmingLanguages } from '../../../settings';
 
@@ -28,7 +30,7 @@ const Filter = (props: {
             />
 
             <Form.Select
-                label='Language'
+                label="Language"
                 value={props.filters.language}
                 name="language"
                 options={propgramminLanguagesOptions}

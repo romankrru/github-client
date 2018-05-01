@@ -1,30 +1,30 @@
+/* eslint-disable */
+
 import React from 'react';
 import { Icon, Table } from 'semantic-ui-react';
 import moment from 'moment';
 
-const RepositoriesTable = props => {
-	return (
-		<Table celled striped>
-			<Table.Header>
-				<Table.Row>
-					<Table.HeaderCell colSpan='3'>Your repositories</Table.HeaderCell>
-				</Table.Row>
-			</Table.Header>
+const RepositoriesTable = props => (
+    <Table celled striped>
+        <Table.Header>
+            <Table.Row>
+                <Table.HeaderCell colSpan="3">Your repositories</Table.HeaderCell>
+            </Table.Row>
+        </Table.Header>
 
-			<Table.Body>
-				{props.data.map(repo => (
-					<Table.Row key={repo.id}>
-						<Table.Cell collapsing>
-							<Icon name={repo.isFork ? 'fork' : 'folder'} />
-						</Table.Cell>
+        <Table.Body>
+            {props.data.map(repo => (
+                <Table.Row key={repo.id}>
+                    <Table.Cell collapsing>
+                        <Icon name={repo.isFork ? 'fork' : 'folder'} />
+                    </Table.Cell>
 
-						<Table.Cell>{repo.name}</Table.Cell>
-						<Table.Cell collapsing textAlign='right'>Created {moment(repo.createdAt).startOf('day').fromNow()}</Table.Cell>
-					</Table.Row>
-				))}
-			</Table.Body>
-		</Table>
-	);
-}
+                    <Table.Cell>{repo.name}</Table.Cell>
+                    <Table.Cell collapsing textAlign="right">Created {moment(repo.createdAt).startOf('day').fromNow()}</Table.Cell>
+                </Table.Row>
+            ))}
+        </Table.Body>
+    </Table>
+);
 
 export default RepositoriesTable;

@@ -1,5 +1,4 @@
 // @flow
-
 const load = (itemName: string): any => {
     try {
         const serailizedItem = localStorage.getItem(itemName);
