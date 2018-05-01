@@ -29,7 +29,7 @@ const Discover = (props: {
 
     isDetailsModalOpen: boolean,
     closeDetailsModal: Function,
-    detailsModalData?: TRepo,
+    detailsModalData: ?TRepo,
     openDetailsModal: Function,
     searchBox: string,
     handleInputChange: Function,
@@ -54,23 +54,25 @@ const Discover = (props: {
             data={props.detailsModalData}
         />
 
-        {props.data.search && <Grid.Row>
-            <Grid.Column width={4}>
-                <Filter
-                    filters={props.filters}
-                    handleFilterChange={props.handleFilterChange}
-                    resetFilters={props.resetFilters}
-                    isLoading={props.data.loading}
-                />
-            </Grid.Column>
+        {props.data.search &&
+            <Grid.Row>
+                <Grid.Column width={4}>
+                    <Filter
+                        filters={props.filters}
+                        handleFilterChange={props.handleFilterChange}
+                        resetFilters={props.resetFilters}
+                        isLoading={props.data.loading}
+                    />
+                </Grid.Column>
 
-            <Grid.Column width={12}>
-                <Result
-                    data={props.data.search.edges}
-                    openDetailsModal={props.openDetailsModal}
-                />
-            </Grid.Column>
-        </Grid.Row>}
+                <Grid.Column width={12}>
+                    <Result
+                        data={props.data.search.edges}
+                        openDetailsModal={props.openDetailsModal}
+                    />
+                </Grid.Column>
+            </Grid.Row>
+        }
     </Grid>
 );
 
@@ -87,7 +89,7 @@ export default compose(
             handleInputChange: () => (_, data: {
                 name: string,
                 value: string
-            }) => ({[data.name]: data.value}),
+            }) => ({ [data.name]: data.value }),
 
             handleFilterChange: props => (_, data: {
                 name: string,
@@ -99,8 +101,12 @@ export default compose(
                 },
             }),
 
-            resetFilters: () => () => ({filters: defaultFilters}),
-            openDetailsModal: () => (data: TRepo) => ({ isDetailsModalOpen: true, detailsModalData: data }),
+            resetFilters: () => () => ({ filters: defaultFilters }),
+
+            openDetailsModal: () => (data: TRepo) => ({
+                isDetailsModalOpen: true, detailsModalData: data,
+            }),
+
             closeDetailsModal: () => () => ({ isDetailsModalOpen: false, detailsModalData: null }),
         },
     ),
@@ -109,9 +115,13 @@ export default compose(
     withDebouncedProps({ debounce: 300, propNames: ['searchBox', 'filters'] }),
 
     graphql(query, {
-        options: props => ({variables: {queryString: transformToGithubQueryString({
-            search: props.searchBoxDebounced,
-            filters: props.filtersDebounced,
-        })}}),
+        options: props => ({
+            variables: {
+                queryString: transformToGithubQueryString({
+                    search: props.searchBoxDebounced,
+                    filters: props.filtersDebounced,
+                }),
+            },
+        }),
     }),
 )(Discover);
