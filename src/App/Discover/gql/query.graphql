@@ -4,24 +4,24 @@ query getRepositories($queryString: String!) {
       edges {
           node {
             ... on Repository {
-              id
-              name
-              description
-              url
-              languages(first: 4) {
+                id
+                name
+                description
+                url
+                languages(first: 4) {
                 edges {
-                  node {
-                    name
-                  }
+                    node {
+                        name
+                    }
                 }
-              }
-              stargazers {
-                totalCount
-              }
-              forks {
-                totalCount
-              }
-              updatedAt
+                }
+                stargazers {
+                    totalCount
+                }
+                forks {
+                    totalCount
+                }
+                updatedAt
             }
           }
       }
