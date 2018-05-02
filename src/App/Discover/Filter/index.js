@@ -1,6 +1,8 @@
 // @flow
 import React from 'react';
+import _ from 'lodash';
 import { Form, Segment, Button } from 'semantic-ui-react';
+import { withPropsOnChange } from 'recompact';
 
 import { programmingLanguages } from '../../../settings';
 import type { TFilters } from '../typedefs';
@@ -14,8 +16,8 @@ const propgramminLanguagesOptions = programmingLanguages.map(language => ({
 const Filter = (props: {
     filters: TFilters,
     handleFilterChange: Function,
+    isResetButtonShown: boolean,
     resetFilters: Function,
-    isLoading: boolean,
 }) => (
     <Segment>
         <Form>
@@ -60,15 +62,23 @@ const Filter = (props: {
                 onChange={props.handleFilterChange}
             />
 
-            <Button
-                content="Reset filters"
-                color="red"
-                onClick={props.resetFilters}
-                disabled={props.isLoading}
-                fluid
-            />
+            { props.isResetButtonShown &&
+                <Button
+                    content="Reset filters"
+                    color="red"
+                    onClick={props.resetFilters}
+                    fluid
+                />
+            }
         </Form>
     </Segment>
 );
 
-export default Filter;
+export default withPropsOnChange(
+    'filters',
+
+    props => ({
+        isResetButtonShown: !_.isEqual(props.defaultFilters, props.filters),
+    }),
+)(Filter);
+

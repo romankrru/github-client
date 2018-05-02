@@ -62,6 +62,7 @@ const Discover = (props: {
                         handleFilterChange={props.handleFilterChange}
                         resetFilters={props.resetFilters}
                         isLoading={props.data.loading}
+                        defaultFilters={defaultFilters}
                     />
                 </Grid.Column>
 
