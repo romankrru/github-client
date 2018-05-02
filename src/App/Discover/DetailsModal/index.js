@@ -51,6 +51,8 @@ const DetailsModal = (props: {
                     <List.Item key={lang.node.name}>{lang.node.name}</List.Item>
                 ))}
             </List>
+
+            <a href={props.data.url} target="_blank">View source on Github <Icon name="external" /></a>
         </Modal.Content>
 
         <Modal.Actions>
