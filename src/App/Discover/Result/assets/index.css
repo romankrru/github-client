@@ -1,3 +1,7 @@
 .CardDescription {
   overflow: hidden;
 }
+
+.CardHeader {
+  cursor: pointer;
+}

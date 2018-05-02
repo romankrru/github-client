@@ -17,6 +17,7 @@ const Result = (props: {
                 <Card.Content
                     header={edge.node.name}
                     onClick={() => props.openDetailsModal(edge.node)}
+                    className={styles.CardHeader}
                 />
 
                 <Card.Content
