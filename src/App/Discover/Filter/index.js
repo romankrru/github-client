@@ -1,10 +1,9 @@
-/* eslint-disable */
-
 // @flow
 import React from 'react';
 import { Form, Segment, Button } from 'semantic-ui-react';
 
 import { programmingLanguages } from '../../../settings';
+import type { TFilters } from '../typedefs';
 
 const propgramminLanguagesOptions = programmingLanguages.map(language => ({
     key: language,
@@ -13,7 +12,7 @@ const propgramminLanguagesOptions = programmingLanguages.map(language => ({
 }));
 
 const Filter = (props: {
-    filters: { [filter_name: string]: string },
+    filters: TFilters,
     handleFilterChange: Function,
     resetFilters: Function,
     isLoading: boolean,

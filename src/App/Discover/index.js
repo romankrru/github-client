@@ -11,7 +11,7 @@ import DetailsModal from './DetailsModal';
 import Result from './Result';
 import Filter from './Filter';
 import query from './gql/query.graphql';
-import type { TRepo } from './typedefs';
+import type { TRepo, TFilters } from './typedefs';
 
 const defaultFilters = {
     language: 'JavaScript',
@@ -35,7 +35,7 @@ const Discover = (props: {
     handleInputChange: Function,
     handleFilterChange: Function,
     resetFilters: Function,
-    filters: { [filter_name: string]: string },
+    filters: TFilters,
 }) => (
     <Grid>
         <Grid.Row>
