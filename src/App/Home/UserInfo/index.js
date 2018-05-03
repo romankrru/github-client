@@ -4,15 +4,10 @@ import { Card, Icon, Image } from 'semantic-ui-react';
 import moment from 'moment';
 
 import { DATE_FORMAT_M_D_Y } from '../../../settings';
+import type { TViewer } from '../typedefs';
 
 const UserInfo = (props: {
-    data: {
-        avatarUrl: string,
-        login: string,
-        createdAt: string,
-        bio: ?string,
-        repositories: {totalCount: number}
-    }
+    data: TViewer,
 }) => (
     <Card>
         <Image src={props.data.avatarUrl} />

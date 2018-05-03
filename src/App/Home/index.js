@@ -1,4 +1,4 @@
-/* eslint-disable */
+// @flow
 import React from 'react';
 import { graphql } from 'react-apollo';
 import { Grid } from 'semantic-ui-react';
@@ -8,8 +8,11 @@ import query from './gql/query.graphql';
 import UserInfo from './UserInfo';
 import RepositoriesTable from './RepositoriesTable';
 import Loader from '../../generic/Loader';
+import type { TViewer } from './typedefs';
 
-const Home = props => (
+const Home = (props: {
+    data: TViewer,
+}) => (
     <Grid>
         <Grid.Row>
             <Grid.Column width={4}>
