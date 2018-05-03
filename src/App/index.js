@@ -5,7 +5,7 @@ import { ApolloProvider } from 'react-apollo';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
 import { ApolloLink, concat } from 'apollo-link';
-import { Route } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
 import { localStorageHelpers } from '../generic/helpers';
 import Layout from '../generic/Layout';
@@ -34,8 +34,11 @@ const client = new ApolloClient({
 const App = () => (
     <ApolloProvider client={client}>
         <Layout>
-            <Route path="/" exact component={Home} />
-            <Route path="/discover" component={Discover} />
+            <Switch>
+                <Route path="/" exact component={Home} />
+                <Route path="/discover" component={Discover} />
+                <Redirect to="/" />
+            </Switch>
         </Layout>
     </ApolloProvider>
 );
