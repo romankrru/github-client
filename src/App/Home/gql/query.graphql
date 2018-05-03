@@ -1,17 +1,17 @@
 {
   viewer {
-      login
-      avatarUrl
-      bio
-      createdAt
-      repositories(first: 30) {
-          totalCount
-          nodes {
-                id
-                name
-                isFork
-                createdAt
-          }
-      }
+        login
+        avatarUrl
+        bio
+        createdAt
+        repositories(first: 30, privacy: PUBLIC) {
+            totalCount
+            nodes {
+                    id
+                    name
+                    isFork
+                    createdAt
+            }
+        }
   }
 }
