@@ -11,7 +11,7 @@ import Loader from '../../generic/Loader';
 import type { TViewer } from './typedefs';
 
 const Home = (props: {
-    data: TViewer,
+    data: {viewer: TViewer},
 }) => (
     <Grid>
         <Grid.Row>

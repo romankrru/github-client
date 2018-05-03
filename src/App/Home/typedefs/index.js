@@ -5,5 +5,8 @@ export type TViewer = {
     login: string,
     createdAt: string,
     bio: ?string,
-    repositories: {totalCount: number}
+    repositories: {
+        totalCount: number,
+        nodes: [],
+    },
 };
