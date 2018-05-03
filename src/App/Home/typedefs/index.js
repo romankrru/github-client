@@ -1,5 +1,12 @@
 // @flow
 
+export type TRepo = {
+    id: string,
+    isFork: boolean,
+    name: string,
+    createdAt: string,
+};
+
 export type TViewer = {
     avatarUrl: string,
     login: string,
@@ -7,6 +14,6 @@ export type TViewer = {
     bio: ?string,
     repositories: {
         totalCount: number,
-        nodes: [],
+        nodes: Array<TRepo>,
     },
 };

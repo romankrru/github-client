@@ -1,10 +1,13 @@
-/* eslint-disable */
-
+// @flow
 import React from 'react';
 import { Icon, Table } from 'semantic-ui-react';
 import moment from 'moment';
 
-const RepositoriesTable = props => (
+import type { TRepo } from '../typedefs';
+
+const RepositoriesTable = (props: {
+    data: Array<TRepo>
+}) => (
     <Table celled striped>
         <Table.Header>
             <Table.Row>
