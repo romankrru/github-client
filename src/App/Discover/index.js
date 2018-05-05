@@ -1,8 +1,10 @@
+/* eslint-disable */
+
 // @flow
 import React from 'react';
 import { Grid } from 'semantic-ui-react';
 import { graphql } from 'react-apollo';
-import { compose, withStateHandlers } from 'recompact';
+import { compose, withStateHandlers, lifecycle } from 'recompact';
 
 import { withDebouncedProps } from '../../generic/hoc';
 import { transformToGithubQueryString } from '../../generic/helpers';
@@ -10,7 +12,7 @@ import SearchBox from './SearchBox';
 import DetailsModal from './DetailsModal';
 import Result from './Result';
 import Filter from './Filter';
-import query from './gql/query.graphql';
+import repositoriesQuery from './gql/repositoriesQuery.graphql';
 import type { TRepo, TFilters } from './typedefs';
 
 const defaultFilters = {
@@ -115,7 +117,7 @@ export default compose(
     // this is the easiest way to debounce graphql query
     withDebouncedProps({ debounce: 300, propNames: ['searchBox', 'filters'] }),
 
-    graphql(query, {
+    graphql(repositoriesQuery, {
         options: props => ({
             variables: {
                 queryString: transformToGithubQueryString({
@@ -125,4 +127,76 @@ export default compose(
             },
         }),
     }),
+
+    withStateHandlers(
+        {isFetchMoreLoading: false},
+        {setIsFetchMoreLoading: () => value => ({isFetchMoreLoading: value})}
+    ),
+
+    lifecycle({
+        componentDidMount() {
+            const onDocumentScroll = _.throttle(() => {
+                const documentHeight = document.body.scrollHeight
+                const screenHeight = document.body.clientHeight
+                const scrolledHeight = window.pageYOffset
+
+                if (documentHeight - screenHeight - scrolledHeight <  50) {
+                    console.log('should fetch more')
+                    // console.log(this.props.data)
+
+                    if (this.props.isFetchMoreLoading) {
+                        console.log('already loading');
+                        return;
+                    }
+                        
+                    this.props.setIsFetchMoreLoading(true);
+
+                    const cursor = _.last(this.props.data.search.edges).cursor
+                    console.log(cursor)     
+
+                    this.props.data.fetchMore({
+                        query: repositoriesQuery,
+
+                        variables: {
+                            cursor: cursor,
+                            queryString: transformToGithubQueryString({
+                                search: this.props.searchBoxDebounced,
+                                filters: this.props.filtersDebounced,
+                            }),
+                        },
+                        
+                        updateQuery: (prevResult, newResult) => {
+                            this.props.setIsFetchMoreLoading(false);
+
+                            if (_.isEmpty(newResult.fetchMoreResult)) {
+                                return prevResult;
+                            }
+
+                            return {
+                                ...prevResult,
+
+                                ...{search: {
+                                    ...prevResult.search,
+
+                                    ...{
+                                        edges: [
+                                            ...prevResult.search.edges,
+                                            ...newResult.fetchMoreResult.search.edges,
+                                        ]
+                                    }
+                                }}
+                            }
+
+                            console.log(prevResult)
+                            console.log(newResult)
+                        }
+                    })
+                }
+
+                // this.props.data.fetchMore()
+            }, 300);
+
+            document.addEventListener('scroll', onDocumentScroll)
+        }
+    })
 )(Discover);

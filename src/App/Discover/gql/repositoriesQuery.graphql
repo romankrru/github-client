@@ -1,0 +1,14 @@
+#import "./_repo.graphql"
+
+query getRepositories($queryString: String!, $cursor: String) {
+    search (query: $queryString, type: REPOSITORY, first: 30, after: $cursor) {
+        repositoryCount
+
+        edges {
+            cursor
+            node {
+                ... on Repository { ...Repo }
+            }
+        }
+    }
+}
