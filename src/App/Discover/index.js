@@ -2,7 +2,7 @@
 
 // @flow
 import React from 'react';
-import { Grid } from 'semantic-ui-react';
+import { Grid, Loader } from 'semantic-ui-react';
 import { graphql } from 'react-apollo';
 import { compose, withStateHandlers, lifecycle } from 'recompact';
 
@@ -73,6 +73,8 @@ const Discover = (props: {
                         data={props.data.search.edges}
                         openDetailsModal={props.openDetailsModal}
                     />
+
+                    <Loader style={{marginTop: 30, marginBottom: 15}} active={props.isFetchMoreLoading} inline='centered' />
                 </Grid.Column>
             </Grid.Row>
         }
@@ -150,6 +152,12 @@ export default compose(
                     }
                         
                     this.props.setIsFetchMoreLoading(true);
+                    
+                    window.scrollBy({
+                        behavior: "smooth",
+                        left: 0,
+                        top: 100
+                    });
 
                     const cursor = _.last(this.props.data.search.edges).cursor
                     console.log(cursor)     
