@@ -13,6 +13,7 @@ import DetailsModal from './DetailsModal';
 import Result from './Result';
 import Filter from './Filter';
 import repositoriesQuery from './gql/repositoriesQuery.graphql';
+import styles from './assets/index.css';
 import type { TRepo, TFilters } from './typedefs';
 
 const defaultFilters = {
@@ -74,7 +75,7 @@ const Discover = (props: {
                         openDetailsModal={props.openDetailsModal}
                     />
 
-                    <Loader style={{marginTop: 30, marginBottom: 15}} active={props.isFetchMoreLoading} inline='centered' />
+                    <Loader className={styles.FetchMoreLoader} active={props.isFetchMoreLoading} inline='centered' />
                 </Grid.Column>
             </Grid.Row>
         }

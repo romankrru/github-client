@@ -1,3 +1,8 @@
 .Search {
     width: 100%;
 }
+
+.FetchMoreLoader {
+    margin-top: 30px !important;
+    margin-bottom: 15px !important;
+}
