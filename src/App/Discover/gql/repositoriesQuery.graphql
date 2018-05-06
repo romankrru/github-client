@@ -1,7 +1,7 @@
 #import "./_repo.graphql"
 
-query getRepositories($queryString: String!, $cursor: String) {
-    search (query: $queryString, type: REPOSITORY, first: 30, after: $cursor) {
+query getRepositories($queryString: String!, $cursor: String, $limit: Int!) {
+    search (query: $queryString, type: REPOSITORY, first: $limit, after: $cursor) {
         repositoryCount
 
         edges {

@@ -6,6 +6,7 @@ import { Grid, Loader } from 'semantic-ui-react';
 import { graphql } from 'react-apollo';
 import { compose, withStateHandlers, lifecycle } from 'recompact';
 
+import { FETCHED_ITEMS_LIMIT } from '../../settings';
 import { withDebouncedProps } from '../../generic/hoc';
 import { transformToGithubQueryString } from '../../generic/helpers';
 import SearchBox from './SearchBox';
@@ -123,6 +124,7 @@ export default compose(
     graphql(repositoriesQuery, {
         options: props => ({
             variables: {
+                limit: FETCHED_ITEMS_LIMIT,
                 queryString: transformToGithubQueryString({
                     search: props.searchBoxDebounced,
                     filters: props.filtersDebounced,
@@ -167,6 +169,7 @@ export default compose(
                         query: repositoriesQuery,
 
                         variables: {
+                            limit: FETCHED_ITEMS_LIMIT,
                             cursor: cursor,
                             queryString: transformToGithubQueryString({
                                 search: this.props.searchBoxDebounced,
@@ -203,7 +206,7 @@ export default compose(
                 }
 
                 // this.props.data.fetchMore()
-            }, 300);
+            }, 100);
 
             document.addEventListener('scroll', onDocumentScroll)
         }
