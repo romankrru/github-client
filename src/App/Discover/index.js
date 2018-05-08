@@ -2,6 +2,7 @@
 
 // @flow
 import React from 'react';
+import _ from 'lodash';
 import { Grid, Loader } from 'semantic-ui-react';
 import { graphql } from 'react-apollo';
 import { compose, withStateHandlers, lifecycle } from 'recompact';
