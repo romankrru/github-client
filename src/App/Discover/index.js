@@ -32,6 +32,7 @@ const Discover = (props: {
     },
 
     isDetailsModalOpen: boolean,
+    isFetchMoreLoading: boolean,
     closeDetailsModal: Function,
     detailsModalData: ?TRepo,
     openDetailsModal: Function,
