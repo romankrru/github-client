@@ -136,6 +136,7 @@ export default compose(
     withInfiniteScroll(props => ({
         query: repositoriesQuery,
         fetchMore: props.data.fetchMore,
+        isAllItemsLoaded: _.get(props.data, 'search.repositoryCount') <= _.get(props.data, 'search.edges', []).length,
 
         variables: {
             limit: FETCHED_ITEMS_LIMIT,

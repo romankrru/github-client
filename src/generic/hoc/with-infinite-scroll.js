@@ -3,6 +3,14 @@ import { compose, withStateHandlers, lifecycle } from 'recompact';
 
 let onDocumentScroll;
 
+const getScrollPosition = () => {
+    const documentHeight = document.body.scrollHeight;
+    const screenHeight = document.body.clientHeight;
+    const scrolledHeight = window.pageYOffset;
+
+    return documentHeight - screenHeight - scrolledHeight;
+};
+
 const withInfiniteScroll = config => compose(
     withStateHandlers(
         { isFetchMoreLoading: false },
@@ -12,14 +20,10 @@ const withInfiniteScroll = config => compose(
     lifecycle({
         componentDidMount() {
             onDocumentScroll = _.throttle(() => {
-                const documentHeight = document.body.scrollHeight;
-                const screenHeight = document.body.clientHeight;
-                const scrolledHeight = window.pageYOffset;
-
-                if (documentHeight - screenHeight - scrolledHeight < 50) {
+                if (!this.props.isFetchMoreLoading && getScrollPosition() < 50) {
                     const resolvedConfig = config(this.props);
 
-                    if (this.props.isFetchMoreLoading) { return; }
+                    if (resolvedConfig.isAllItemsLoaded) { return; }
 
                     this.props.setIsFetchMoreLoading(true);
 
@@ -33,11 +37,11 @@ const withInfiniteScroll = config => compose(
                         query: resolvedConfig.query,
                         variables: resolvedConfig.variables,
 
-                        updateQuery: (prevResult, newResult) => {
-                            if (_.isEmpty(newResult.fetchMoreResult)) { return prevResult; }
-
-                            return resolvedConfig.update(prevResult, newResult);
-                        },
+                        updateQuery: (prevResult, newResult) => (
+                            _.isEmpty(newResult.fetchMoreResult)
+                                ? prevResult
+                                : resolvedConfig.update(prevResult, newResult)
+                        ),
                     }).then(() => this.props.setIsFetchMoreLoading(false));
                 }
             }, 100);
