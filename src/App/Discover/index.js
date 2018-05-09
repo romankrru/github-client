@@ -3,7 +3,7 @@ import React from 'react';
 import _ from 'lodash';
 import { Grid, Loader } from 'semantic-ui-react';
 import { graphql } from 'react-apollo';
-import { compose, withStateHandlers } from 'recompact';
+import { compose, withStateHandlers, withPropsOnChange } from 'recompact';
 
 import { FETCHED_ITEMS_LIMIT } from '../../settings';
 import { withDebouncedProps, withInfiniteScroll } from '../../generic/hoc';
@@ -12,6 +12,7 @@ import SearchBox from './SearchBox';
 import DetailsModal from './DetailsModal';
 import Result from './Result';
 import Filter from './Filter';
+import ItemsCount from './ItemsCount';
 import repositoriesQuery from './gql/repositoriesQuery.graphql';
 import styles from './assets/index.css';
 import type { TRepo, TFilters } from './typedefs';
@@ -30,6 +31,8 @@ const Discover = (props: {
         search?: { edges: Array<{node: TRepo}> },
     },
 
+    itemsTotalCount: number,
+    itemsLoadedCount: number,
     isDetailsModalOpen: boolean,
     isFetchMoreLoading: boolean,
     closeDetailsModal: Function,
@@ -51,12 +54,6 @@ const Discover = (props: {
                 />
             </Grid.Column>
         </Grid.Row>
-
-        <DetailsModal
-            isOpen={props.isDetailsModalOpen}
-            close={props.closeDetailsModal}
-            data={props.detailsModalData}
-        />
 
         {props.data.search &&
             <Grid.Row>
@@ -80,6 +77,17 @@ const Discover = (props: {
                 </Grid.Column>
             </Grid.Row>
         }
+
+        <ItemsCount
+            itemsTotalCount={props.itemsTotalCount}
+            itemsLoadedCount={props.itemsLoadedCount}
+        />
+
+        <DetailsModal
+            isOpen={props.isDetailsModalOpen}
+            close={props.closeDetailsModal}
+            data={props.detailsModalData}
+        />
     </Grid>
 );
 
@@ -133,10 +141,15 @@ export default compose(
         }),
     }),
 
+    withPropsOnChange(['data'], props => ({
+        itemsTotalCount: _.get(props.data, 'search.repositoryCount', 0),
+        itemsLoadedCount: _.get(props.data, 'search.edges', []).length,
+    })),
+
     withInfiniteScroll(props => ({
         query: repositoriesQuery,
         fetchMore: props.data.fetchMore,
-        isAllItemsLoaded: _.get(props.data, 'search.repositoryCount') <= _.get(props.data, 'search.edges', []).length,
+        isAllItemsLoaded: props.itemsTotalCount <= props.itemsLoadedCount,
 
         variables: {
             limit: FETCHED_ITEMS_LIMIT,
