@@ -1,6 +1,8 @@
 import _ from 'lodash';
 import { compose, withStateHandlers, lifecycle } from 'recompact';
 
+let onDocumentScroll;
+
 const withInfiniteScroll = params => compose(
     withStateHandlers(
         { isFetchMoreLoading: false },
@@ -9,7 +11,7 @@ const withInfiniteScroll = params => compose(
 
     lifecycle({
         componentDidMount() {
-            const onDocumentScroll = _.throttle(() => {
+            onDocumentScroll = _.throttle(() => {
                 const documentHeight = document.body.scrollHeight;
                 const screenHeight = document.body.clientHeight;
                 const scrolledHeight = window.pageYOffset;
@@ -39,6 +41,10 @@ const withInfiniteScroll = params => compose(
             }, 100);
 
             document.addEventListener('scroll', onDocumentScroll);
+        },
+
+        componentWillUnmount() {
+            document.removeEventListener('scroll', onDocumentScroll);
         },
     }),
 );
