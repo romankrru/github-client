@@ -3,7 +3,7 @@ import { compose, withStateHandlers, lifecycle } from 'recompact';
 
 let onDocumentScroll;
 
-const withInfiniteScroll = params => compose(
+const withInfiniteScroll = config => compose(
     withStateHandlers(
         { isFetchMoreLoading: false },
         { setIsFetchMoreLoading: () => value => ({ isFetchMoreLoading: value }) },
@@ -17,6 +17,8 @@ const withInfiniteScroll = params => compose(
                 const scrolledHeight = window.pageYOffset;
 
                 if (documentHeight - screenHeight - scrolledHeight < 50) {
+                    const resolvedConfig = config(this.props);
+
                     if (this.props.isFetchMoreLoading) { return; }
 
                     this.props.setIsFetchMoreLoading(true);
@@ -27,14 +29,14 @@ const withInfiniteScroll = params => compose(
                         top: 100,
                     });
 
-                    params.fetchMore(this.props)({
-                        query: params.query,
-                        variables: params.variables(this.props),
+                    resolvedConfig.fetchMore({
+                        query: resolvedConfig.query,
+                        variables: resolvedConfig.variables,
 
                         updateQuery: (prevResult, newResult) => {
                             if (_.isEmpty(newResult.fetchMoreResult)) { return prevResult; }
 
-                            return params.update(prevResult, newResult);
+                            return resolvedConfig.update(prevResult, newResult);
                         },
                     }).then(() => this.props.setIsFetchMoreLoading(false));
                 }

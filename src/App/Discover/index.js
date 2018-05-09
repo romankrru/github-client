@@ -133,11 +133,11 @@ export default compose(
         }),
     }),
 
-    withInfiniteScroll({
+    withInfiniteScroll(props => ({
         query: repositoriesQuery,
-        fetchMore: props => props.data.fetchMore,
+        fetchMore: props.data.fetchMore,
 
-        variables: props => ({
+        variables: {
             limit: FETCHED_ITEMS_LIMIT,
             cursor: _.last(props.data.search.edges).cursor,
 
@@ -145,7 +145,7 @@ export default compose(
                 search: props.searchBoxDebounced,
                 filters: props.filtersDebounced,
             }),
-        }),
+        },
 
         update: (prevResult, newResult) => ({
             ...prevResult,
@@ -163,5 +163,5 @@ export default compose(
                 },
             },
         }),
-    }),
+    })),
 )(Discover);
