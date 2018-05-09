@@ -1,11 +1,9 @@
-/* eslint-disable */
-
 // @flow
 import React from 'react';
 import _ from 'lodash';
 import { Grid, Loader } from 'semantic-ui-react';
 import { graphql } from 'react-apollo';
-import { compose, withStateHandlers, lifecycle, withHandlers } from 'recompact';
+import { compose, withStateHandlers } from 'recompact';
 
 import { FETCHED_ITEMS_LIMIT } from '../../settings';
 import { withDebouncedProps, withInfiniteScroll } from '../../generic/hoc';
@@ -78,7 +76,7 @@ const Discover = (props: {
                         openDetailsModal={props.openDetailsModal}
                     />
 
-                    <Loader className={styles.FetchMoreLoader} active={props.isFetchMoreLoading} inline='centered' />
+                    <Loader className={styles.FetchMoreLoader} active={props.isFetchMoreLoading} inline="centered" />
                 </Grid.Column>
             </Grid.Row>
         }
@@ -95,12 +93,12 @@ export default compose(
         },
 
         {
-            handleInputChange: () => (_, data: {
+            handleInputChange: () => (_a, data: {
                 name: string,
                 value: string
             }) => ({ [data.name]: data.value }),
 
-            handleFilterChange: props => (_, data: {
+            handleFilterChange: props => (_a, data: {
                 name: string,
                 value: string,
             }) => ({
@@ -137,32 +135,32 @@ export default compose(
 
     withInfiniteScroll({
         query: repositoriesQuery,
-        variables: props => {
-            return {
-                limit: FETCHED_ITEMS_LIMIT,
-                cursor: _.last(props.data.search.edges).cursor,
 
-                queryString: transformToGithubQueryString({
-                    search: props.searchBoxDebounced,
-                    filters: props.filtersDebounced,
-                }),
-            }
-        },
-        update: (prevResult, newResult) => {
-            return {
-                ...prevResult,
+        variables: props => ({
+            limit: FETCHED_ITEMS_LIMIT,
+            cursor: _.last(props.data.search.edges).cursor,
 
-                ...{search: {
+            queryString: transformToGithubQueryString({
+                search: props.searchBoxDebounced,
+                filters: props.filtersDebounced,
+            }),
+        }),
+
+        update: (prevResult, newResult) => ({
+            ...prevResult,
+
+            ...{
+                search: {
                     ...prevResult.search,
 
                     ...{
                         edges: [
                             ...prevResult.search.edges,
                             ...newResult.fetchMoreResult.search.edges,
-                        ]
-                    }
-                }}
-            }
-        }
-    })
+                        ],
+                    },
+                },
+            },
+        }),
+    }),
 )(Discover);
