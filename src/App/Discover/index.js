@@ -148,13 +148,8 @@ export default compose(
                 const scrolledHeight = window.pageYOffset
 
                 if (documentHeight - screenHeight - scrolledHeight <  50) {
-                    console.log('should fetch more')
-                    // console.log(this.props.data)
-
-                    if (this.props.isFetchMoreLoading) {
-                        console.log('already loading');
+                    if (this.props.isFetchMoreLoading)
                         return;
-                    }
                         
                     this.props.setIsFetchMoreLoading(true);
                     
@@ -164,8 +159,7 @@ export default compose(
                         top: 100
                     });
 
-                    const cursor = _.last(this.props.data.search.edges).cursor
-                    console.log(cursor)     
+                    const cursor = _.last(this.props.data.search.edges).cursor  
 
                     this.props.data.fetchMore({
                         query: repositoriesQuery,
@@ -182,9 +176,8 @@ export default compose(
                         updateQuery: (prevResult, newResult) => {
                             this.props.setIsFetchMoreLoading(false);
 
-                            if (_.isEmpty(newResult.fetchMoreResult)) {
+                            if (_.isEmpty(newResult.fetchMoreResult))
                                 return prevResult;
-                            }
 
                             return {
                                 ...prevResult,
@@ -200,14 +193,9 @@ export default compose(
                                     }
                                 }}
                             }
-
-                            console.log(prevResult)
-                            console.log(newResult)
                         }
                     })
                 }
-
-                // this.props.data.fetchMore()
             }, 100);
 
             document.addEventListener('scroll', onDocumentScroll)
