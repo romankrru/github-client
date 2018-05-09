@@ -5,10 +5,10 @@ import React from 'react';
 import _ from 'lodash';
 import { Grid, Loader } from 'semantic-ui-react';
 import { graphql } from 'react-apollo';
-import { compose, withStateHandlers, lifecycle } from 'recompact';
+import { compose, withStateHandlers, lifecycle, withHandlers } from 'recompact';
 
 import { FETCHED_ITEMS_LIMIT } from '../../settings';
-import { withDebouncedProps } from '../../generic/hoc';
+import { withDebouncedProps, withInfiniteScroll } from '../../generic/hoc';
 import { transformToGithubQueryString } from '../../generic/helpers';
 import SearchBox from './SearchBox';
 import DetailsModal from './DetailsModal';
@@ -135,70 +135,34 @@ export default compose(
         }),
     }),
 
-    withStateHandlers(
-        {isFetchMoreLoading: false},
-        {setIsFetchMoreLoading: () => value => ({isFetchMoreLoading: value})}
-    ),
+    withInfiniteScroll({
+        query: repositoriesQuery,
+        variables: props => {
+            return {
+                limit: FETCHED_ITEMS_LIMIT,
+                cursor: _.last(props.data.search.edges).cursor,
 
-    lifecycle({
-        componentDidMount() {
-            const onDocumentScroll = _.throttle(() => {
-                const documentHeight = document.body.scrollHeight
-                const screenHeight = document.body.clientHeight
-                const scrolledHeight = window.pageYOffset
+                queryString: transformToGithubQueryString({
+                    search: props.searchBoxDebounced,
+                    filters: props.filtersDebounced,
+                }),
+            }
+        },
+        update: (prevResult, newResult) => {
+            return {
+                ...prevResult,
 
-                if (documentHeight - screenHeight - scrolledHeight <  50) {
-                    if (this.props.isFetchMoreLoading)
-                        return;
-                        
-                    this.props.setIsFetchMoreLoading(true);
-                    
-                    window.scrollBy({
-                        behavior: "smooth",
-                        left: 0,
-                        top: 100
-                    });
+                ...{search: {
+                    ...prevResult.search,
 
-                    const cursor = _.last(this.props.data.search.edges).cursor  
-
-                    this.props.data.fetchMore({
-                        query: repositoriesQuery,
-
-                        variables: {
-                            limit: FETCHED_ITEMS_LIMIT,
-                            cursor: cursor,
-                            queryString: transformToGithubQueryString({
-                                search: this.props.searchBoxDebounced,
-                                filters: this.props.filtersDebounced,
-                            }),
-                        },
-                        
-                        updateQuery: (prevResult, newResult) => {
-                            this.props.setIsFetchMoreLoading(false);
-
-                            if (_.isEmpty(newResult.fetchMoreResult))
-                                return prevResult;
-
-                            return {
-                                ...prevResult,
-
-                                ...{search: {
-                                    ...prevResult.search,
-
-                                    ...{
-                                        edges: [
-                                            ...prevResult.search.edges,
-                                            ...newResult.fetchMoreResult.search.edges,
-                                        ]
-                                    }
-                                }}
-                            }
-                        }
-                    })
-                }
-            }, 100);
-
-            document.addEventListener('scroll', onDocumentScroll)
+                    ...{
+                        edges: [
+                            ...prevResult.search.edges,
+                            ...newResult.fetchMoreResult.search.edges,
+                        ]
+                    }
+                }}
+            }
         }
     })
 )(Discover);
