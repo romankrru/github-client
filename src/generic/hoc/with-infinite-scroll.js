@@ -1,9 +1,12 @@
+// @flow
 import _ from 'lodash';
 import { compose, withStateHandlers, lifecycle } from 'recompact';
 
+import type { DocumentNode } from 'graphql';
+
 let onDocumentScroll;
 
-const getScrollPosition = () => {
+const getScrollPosition = (): number => {
     const documentHeight = document.body.scrollHeight;
     const screenHeight = document.body.clientHeight;
     const scrolledHeight = window.pageYOffset;
@@ -11,7 +14,13 @@ const getScrollPosition = () => {
     return documentHeight - screenHeight - scrolledHeight;
 };
 
-const withInfiniteScroll = config => compose(
+const withInfiniteScroll = (config: Object => {
+    query: DocumentNode,
+    fetchMore: Function,
+    isAllItemsLoaded: boolean,
+    variables: Object,
+    update: (prevResult: Object, newResult: Object) => Object,
+}) => compose(
     withStateHandlers(
         { isFetchMoreLoading: false },
         { setIsFetchMoreLoading: () => value => ({ isFetchMoreLoading: value }) },
