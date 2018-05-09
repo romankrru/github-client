@@ -135,6 +135,7 @@ export default compose(
 
     withInfiniteScroll({
         query: repositoriesQuery,
+        fetchMore: props => props.data.fetchMore,
 
         variables: props => ({
             limit: FETCHED_ITEMS_LIMIT,

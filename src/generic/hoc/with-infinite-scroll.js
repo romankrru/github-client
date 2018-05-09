@@ -27,7 +27,7 @@ const withInfiniteScroll = params => compose(
                         top: 100,
                     });
 
-                    this.props.data.fetchMore({
+                    params.fetchMore(this.props)({
                         query: params.query,
                         variables: params.variables(this.props),
 
