@@ -28,7 +28,7 @@ const defaultFilters = {
 const Discover = (props: {
     data: {
         loading: boolean,
-        search?: { edges: Array<{node: TRepo}> },
+        search?: { edges: Array<{ node: TRepo }> },
     },
 
     itemsTotalCount: number,
@@ -55,28 +55,26 @@ const Discover = (props: {
             </Grid.Column>
         </Grid.Row>
 
-        {props.data.search &&
-            <Grid.Row>
-                <Grid.Column width={4}>
-                    <Filter
-                        filters={props.filters}
-                        handleFilterChange={props.handleFilterChange}
-                        resetFilters={props.resetFilters}
-                        isLoading={props.data.loading}
-                        defaultFilters={defaultFilters}
-                    />
-                </Grid.Column>
+        {props.data.search && <Grid.Row>
+            <Grid.Column width={4}>
+                <Filter
+                    filters={props.filters}
+                    handleFilterChange={props.handleFilterChange}
+                    resetFilters={props.resetFilters}
+                    isLoading={props.data.loading}
+                    defaultFilters={defaultFilters}
+                />
+            </Grid.Column>
 
-                <Grid.Column width={12}>
-                    <Result
-                        data={props.data.search.edges}
-                        openDetailsModal={props.openDetailsModal}
-                    />
+            <Grid.Column width={12}>
+                <Result
+                    data={props.data.search.edges}
+                    openDetailsModal={props.openDetailsModal}
+                />
 
-                    <Loader className={styles.FetchMoreLoader} active={props.isFetchMoreLoading} inline="centered" />
-                </Grid.Column>
-            </Grid.Row>
-        }
+                <Loader className={styles.FetchMoreLoader} active={props.isFetchMoreLoading} inline="centered" />
+            </Grid.Column>
+        </Grid.Row>}
 
         <ItemsCount
             itemsTotalCount={props.itemsTotalCount}
@@ -164,17 +162,13 @@ export default compose(
         update: (prevResult, newResult) => ({
             ...prevResult,
 
-            ...{
-                search: {
-                    ...prevResult.search,
+            search: {
+                ...prevResult.search,
 
-                    ...{
-                        edges: [
-                            ...prevResult.search.edges,
-                            ...newResult.fetchMoreResult.search.edges,
-                        ],
-                    },
-                },
+                edges: [
+                    ...prevResult.search.edges,
+                    ...newResult.fetchMoreResult.search.edges,
+                ],
             },
         }),
     })),
