@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Menu should render correctly 1`] = `
+<Menu>
+  <MenuItem
+    as={[Function]}
+    exact={true}
+    name="Home"
+    to="/"
+  />
+  <MenuItem
+    as={[Function]}
+    name="Discover"
+    to="/discover"
+  />
+  <MenuMenu
+    position="right"
+  >
+    <MenuItem
+      as={[Function]}
+      name="Logout"
+      to="/logout"
+    />
+  </MenuMenu>
+</Menu>
+`;
