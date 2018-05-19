@@ -7,8 +7,8 @@ import type { DocumentNode } from 'graphql';
 let onDocumentScroll;
 
 const getScrollPosition = (): number => {
-    const documentHeight = document.body.scrollHeight;
-    const screenHeight = document.body.clientHeight;
+    const documentHeight = _.get(document.body, 'scrollHeight', 0);
+    const screenHeight = _.get(document.body, 'clientHeight', 0);
     const scrolledHeight = window.pageYOffset;
 
     return documentHeight - screenHeight - scrolledHeight;
