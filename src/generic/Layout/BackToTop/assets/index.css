@@ -1,0 +1,44 @@
+.BackToTop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 70px;
+    height: 100vh;
+
+    background: rgba(0,0,0,.05);
+    cursor: pointer;
+    transition: all .25s ease;
+}
+
+.BackToTop:hover {
+    box-shadow: 1px 2px 5px rgba(34,36,38,.15);
+}
+
+.BackToTop .text {
+    color: rgb(148, 148, 148);
+    position: absolute;
+    transform: rotate(-90deg);
+    bottom: 100px;
+    left: -16px;
+    width: 100px;
+}
+
+.BackToTop:hover .text {
+    color: rgb(71, 71, 71);
+}
+
+.BackToTop-entering {
+    opacity: 0;
+}
+
+.BackToTop-entered {
+    opacity: 1;
+}
+
+.BackToTop-exiting {
+    opacity: 0;
+}
+
+.BackToTop-exited {
+    opacity: 0;
+}

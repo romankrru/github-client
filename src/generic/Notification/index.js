@@ -29,7 +29,6 @@ const Notification = (props: {
 
 export default compose(
     lifecycle({
-    // FIXME: update to getDerivedStateFromProps
         componentWillReceiveProps(nextProps) {
             if (nextProps.shownAt && nextProps.shownAt !== this.props.shownAt) {
                 const timeoutId = setTimeout(() =>
