@@ -1,9 +1,8 @@
 // @flow
-/* eslint-disable */
 
 import React from 'react';
 import _ from 'lodash';
-import {compose, branch, renderNothing, lifecycle, withStateHandlers, withHandlers} from 'recompact';
+import { compose, branch, renderNothing, lifecycle, withStateHandlers, withHandlers } from 'recompact';
 
 import { withTransitionState } from '../../hoc';
 import styles from './assets/index.css';
@@ -11,9 +10,10 @@ import styles from './assets/index.css';
 let onScroll;
 
 const BackToTop = (props: {
-
+    toTop: Function,
+    transitionState: 'entering' | 'entered' | 'exiting' | 'exited',
 }) => (
-    <div
+    <button
         onClick={props.toTop}
 
         className={[
@@ -22,13 +22,13 @@ const BackToTop = (props: {
         ].join(' ')}
     >
         <div className={styles.text}>Back To Top</div>
-    </div>
-)
+    </button>
+);
 
 export default compose(
     withStateHandlers(
-        {isShown: false},
-        {setIsShown: () => (value) => ({isShown: value})},
+        { isShown: false },
+        { setIsShown: () => (value: boolean) => ({ isShown: value }) },
     ),
 
     lifecycle({
@@ -36,7 +36,7 @@ export default compose(
             const windowHeight = window.innerHeight;
 
             onScroll = _.throttle(() => {
-                const shouldBeVisible = window.scrollY > (windowHeight / 1.);
+                const shouldBeVisible = window.scrollY > (windowHeight / 1.3);
 
                 if (shouldBeVisible && !this.props.isShown) {
                     this.props.setIsShown(true);
@@ -45,16 +45,16 @@ export default compose(
                 }
             }, 100);
 
-            document.addEventListener('scroll', onScroll)
+            document.addEventListener('scroll', onScroll);
         },
 
         componentWillUnmount() {
             document.removeEventListener('scroll', onScroll);
-        }
+        },
     }),
 
     withHandlers({
-        toTop: props => () => window.scrollTo({
+        toTop: () => () => window.scrollTo({
             behavior: 'smooth',
             left: 0,
             top: 0,

@@ -5,8 +5,15 @@
     width: 70px;
     height: 100vh;
 
+    display: block;
+    margin: 0;
+    padding: 0;
+
+    border: none;
+    outline: none;
     background: rgba(0,0,0,.05);
     cursor: pointer;
+
     transition: all .25s ease;
 }
 
@@ -15,12 +22,14 @@
 }
 
 .BackToTop .text {
-    color: rgb(148, 148, 148);
     position: absolute;
-    transform: rotate(-90deg);
     bottom: 100px;
     left: -16px;
+
     width: 100px;
+
+    color: rgb(148, 148, 148);
+    transform: rotate(-90deg);
 }
 
 .BackToTop:hover .text {
