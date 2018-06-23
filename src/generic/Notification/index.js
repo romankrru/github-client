@@ -7,11 +7,12 @@ import Portal from '../Portal';
 import { NOTIFICATION_TIMEOUT } from '../../settings';
 import { withTransitionState } from '../hoc';
 import styles from './assets/index.css';
+import type { TTransitionState } from '../typedefs';
 
 const Notification = (props: {
     color: ?string,
     text: ?string,
-    transitionState: 'entering' | 'entered' | 'exiting' | 'exited',
+    transitionState: TTransitionState,
 }) => (
     <Portal>
         <Message

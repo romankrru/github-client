@@ -6,12 +6,13 @@ import { compose, branch, renderNothing, lifecycle, withStateHandlers, withHandl
 
 import { withTransitionState } from '../../hoc';
 import styles from './assets/index.css';
+import type { TTransitionState } from '../../typedefs';
 
 let onScroll;
 
 const BackToTop = (props: {
     toTop: Function,
-    transitionState: 'entering' | 'entered' | 'exiting' | 'exited',
+    transitionState: TTransitionState,
 }) => (
     <button
         onClick={props.toTop}
@@ -40,7 +41,9 @@ export default compose(
 
                 if (shouldBeVisible && !this.props.isShown) {
                     this.props.setIsShown(true);
-                } else if (!shouldBeVisible && this.props.isShown) {
+                }
+
+                if (!shouldBeVisible && this.props.isShown) {
                     this.props.setIsShown(false);
                 }
             }, 100);
