@@ -2,6 +2,7 @@
 import React from 'react';
 import { Message } from 'semantic-ui-react';
 import { compose, branch, renderNothing, lifecycle } from 'recompact';
+import cn from 'classnames';
 
 import Portal from '../Portal';
 import { NOTIFICATION_TIMEOUT } from '../../settings';
@@ -16,11 +17,7 @@ const Notification = (props: {
 }) => (
     <Portal>
         <Message
-            className={[
-                styles.Notification,
-                styles[`Notification-${props.transitionState}`],
-            ].join(' ')}
-
+            className={cn(styles.Notification, styles[`Notification-${props.transitionState}`])}
             color={props.color}
         >
             {props.text}

@@ -3,6 +3,7 @@
 import React from 'react';
 import _ from 'lodash';
 import { compose, branch, renderNothing, lifecycle, withStateHandlers, withHandlers } from 'recompact';
+import cn from 'classnames';
 
 import { withTransitionState } from '../../hoc';
 import styles from './assets/index.css';
@@ -16,11 +17,7 @@ const BackToTop = (props: {
 }) => (
     <button
         onClick={props.toTop}
-
-        className={[
-            styles.BackToTop,
-            styles[`BackToTop-${props.transitionState}`],
-        ].join(' ')}
+        className={cn(styles.BackToTop, styles[`BackToTop-${props.transitionState}`])}
     >
         <div className={styles.text}>Back To Top</div>
     </button>
