@@ -131,6 +131,7 @@ export default compose(
         options: props => ({
             variables: {
                 limit: FETCHED_ITEMS_LIMIT,
+
                 queryString: transformToGithubQueryString({
                     search: props.searchBoxDebounced,
                     filters: props.filtersDebounced,
