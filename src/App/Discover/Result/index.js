@@ -3,7 +3,7 @@ import React from 'react';
 import _ from 'lodash';
 import { Card, Icon } from 'semantic-ui-react';
 
-import styles from './assets/index.css';
+import styles from './assets/index.module.css';
 import type { TRepo } from '../typedefs';
 
 const Result = (props: {

@@ -52,7 +52,7 @@ const DetailsModal = (props: {
                 ))}
             </List>
 
-            <a href={props.data.url} target="_blank">View source on Github <Icon name="external" /></a>
+            <a href={props.data.url} target="_blank" rel="noopener noreferrer">View source on Github <Icon name="external" /></a>
         </Modal.Content>
 
         <Modal.Actions>

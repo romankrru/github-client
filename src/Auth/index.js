@@ -7,14 +7,15 @@ import base64 from 'base-64';
 import { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, AUTH_URL_PATH } from '../settings';
 import { localStorageHelpers } from '../generic/helpers';
 import Notification from '../generic/Notification';
-import styles from './assets/index.css';
+import styles from './assets/index.module.css';
 
 const Auth = (props: {
     onChange: Function,
     signIn: Function,
     isLoading: boolean,
     isValid: boolean,
-    errorNotifiactionShownAt: string,
+    errorNotificationShownAt: string,
+
     form: {
         login: string,
         password: string,
@@ -54,7 +55,7 @@ const Auth = (props: {
         </Form>
 
         <Notification
-            shownAt={props.errorNotifiactionShownAt}
+            shownAt={props.errorNotificationShownAt}
             color="red"
             text="Invalid login or password"
         />
@@ -65,7 +66,7 @@ export default compose(
     withStateHandlers(
         {
             form: { login: '', password: '' },
-            errorNotifiactionShownAt: '',
+            errorNotificationShownAt: '',
             isLoading: false,
         },
 
@@ -84,7 +85,7 @@ export default compose(
                 },
             }),
 
-            showErrorNotification: () => () => ({ errorNotifiactionShownAt: new Date() }),
+            showErrorNotification: () => () => ({ errorNotificationShownAt: new Date() }),
             setIsLoading: () => value => ({ isLoading: value }),
         },
     ),

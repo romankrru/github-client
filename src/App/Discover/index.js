@@ -4,6 +4,7 @@ import _ from 'lodash';
 import { Grid, Loader } from 'semantic-ui-react';
 import { graphql } from 'react-apollo';
 import { compose, withStateHandlers, withPropsOnChange } from 'recompact';
+import { loader } from 'graphql.macro';
 
 import { FETCHED_ITEMS_LIMIT } from '../../settings';
 import { withDebouncedProps, withInfiniteScroll } from '../../generic/hoc';
@@ -13,9 +14,9 @@ import DetailsModal from './DetailsModal';
 import Result from './Result';
 import Filter from './Filter';
 import ItemsCount from './ItemsCount';
-import repositoriesQuery from './gql/repositoriesQuery.graphql';
-import styles from './assets/index.css';
+import styles from './assets/index.module.css';
 import type { TRepo, TFilters } from './typedefs';
+const repositoriesQuery = loader('./gql/repositoriesQuery.graphql');
 
 const defaultFilters = {
     language: 'JavaScript',

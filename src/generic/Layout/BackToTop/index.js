@@ -6,7 +6,7 @@ import { compose, branch, renderNothing, lifecycle, withStateHandlers, withHandl
 import cn from 'classnames';
 
 import { withTransitionState } from '../../hoc';
-import styles from './assets/index.css';
+import styles from './assets/index.module.css';
 import type { TTransitionState } from '../../typedefs';
 
 let onScroll;

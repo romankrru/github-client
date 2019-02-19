@@ -3,7 +3,7 @@ import React from 'react';
 import { branch, renderNothing } from 'recompact';
 
 import Portal from '../../../generic/Portal';
-import styles from './assets/index.css';
+import styles from './assets/index.module.css';
 
 const ItemsCount = (props: {
     itemsLoadedCount: number,

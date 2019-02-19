@@ -7,7 +7,7 @@ import cn from 'classnames';
 import Portal from '../Portal';
 import { NOTIFICATION_TIMEOUT } from '../../settings';
 import { withTransitionState } from '../hoc';
-import styles from './assets/index.css';
+import styles from './assets/index.module.css';
 import type { TTransitionState } from '../typedefs';
 
 const Notification = (props: {

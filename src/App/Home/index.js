@@ -2,13 +2,15 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
 import { Grid } from 'semantic-ui-react';
+import { loader } from 'graphql.macro';
 import { compose, branch, renderComponent } from 'recompact';
 
-import query from './gql/query.graphql';
 import UserInfo from './UserInfo';
 import RepositoriesTable from './RepositoriesTable';
 import Loader from '../../generic/Loader';
 import type { TViewer } from './typedefs';
+
+const query = loader('./gql/query.graphql');
 
 const Home = (props: {
     data: {viewer: TViewer},
