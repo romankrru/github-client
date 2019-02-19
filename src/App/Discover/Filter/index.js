@@ -2,7 +2,7 @@
 import React from 'react';
 import _ from 'lodash';
 import { Form, Segment, Button } from 'semantic-ui-react';
-import { withPropsOnChange } from 'recompact';
+import { withPropsOnChange } from 'recompose';
 
 import { programmingLanguages } from '../../../settings';
 import type { TFilters } from '../typedefs';

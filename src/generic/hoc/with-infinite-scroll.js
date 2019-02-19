@@ -1,6 +1,6 @@
 // @flow
 import _ from 'lodash';
-import { compose, withStateHandlers, lifecycle } from 'recompact';
+import { compose, withStateHandlers, lifecycle } from 'recompose';
 
 import type { DocumentNode } from 'graphql';
 

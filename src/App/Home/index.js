@@ -3,7 +3,7 @@ import React from 'react';
 import { graphql } from 'react-apollo';
 import { Grid } from 'semantic-ui-react';
 import { loader } from 'graphql.macro';
-import { compose, branch, renderComponent } from 'recompact';
+import { compose, branch, renderComponent } from 'recompose';
 
 import UserInfo from './UserInfo';
 import RepositoriesTable from './RepositoriesTable';

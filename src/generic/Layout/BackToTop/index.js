@@ -2,7 +2,7 @@
 
 import React from 'react';
 import _ from 'lodash';
-import { compose, branch, renderNothing, lifecycle, withStateHandlers, withHandlers } from 'recompact';
+import { compose, branch, renderNothing, lifecycle, withStateHandlers, withHandlers } from 'recompose';
 import cn from 'classnames';
 
 import { withTransitionState } from '../../hoc';

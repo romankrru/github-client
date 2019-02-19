@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom';
-import { compose, withProps, lifecycle } from 'recompact';
+import { compose, withProps, lifecycle } from 'recompose';
 
 const Portal = props => ReactDOM.createPortal(props.children, props.container);
 

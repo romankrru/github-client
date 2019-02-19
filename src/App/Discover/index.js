@@ -3,7 +3,7 @@ import React from 'react';
 import _ from 'lodash';
 import { Grid, Loader } from 'semantic-ui-react';
 import { graphql } from 'react-apollo';
-import { compose, withStateHandlers, withPropsOnChange } from 'recompact';
+import { compose, withStateHandlers, withPropsOnChange } from 'recompose';
 import { loader } from 'graphql.macro';
 
 import { FETCHED_ITEMS_LIMIT } from '../../settings';

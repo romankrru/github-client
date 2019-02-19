@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import { lifecycle } from 'recompact';
+import { lifecycle } from 'recompose';
 
 import { localStorageHelpers } from '../generic/helpers';
 

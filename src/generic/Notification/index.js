@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import { Message } from 'semantic-ui-react';
-import { compose, branch, renderNothing, lifecycle } from 'recompact';
+import { compose, branch, renderNothing, lifecycle } from 'recompose';
 import cn from 'classnames';
 
 import Portal from '../Portal';

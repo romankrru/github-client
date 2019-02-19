@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import { Form, Input, Button } from 'semantic-ui-react';
-import { compose, withStateHandlers, withHandlers, withPropsOnChange } from 'recompact';
+import { compose, withStateHandlers, withHandlers, withPropsOnChange } from 'recompose';
 import base64 from 'base-64';
 
 import { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, AUTH_URL_PATH } from '../settings';

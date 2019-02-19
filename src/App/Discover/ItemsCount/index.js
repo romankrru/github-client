@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { branch, renderNothing } from 'recompact';
+import { branch, renderNothing } from 'recompose';
 
 import Portal from '../../../generic/Portal';
 import styles from './assets/index.module.css';

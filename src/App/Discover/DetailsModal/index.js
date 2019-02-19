@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { branch, renderNothing } from 'recompact';
+import { branch, renderNothing } from 'recompose';
 import { Button, Header, Icon, Modal, List, Table } from 'semantic-ui-react';
 import moment from 'moment';
 
