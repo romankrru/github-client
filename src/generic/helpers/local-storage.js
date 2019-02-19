@@ -1,10 +1,10 @@
 // @flow
 const load = (itemName: string): any => {
     try {
-        const serailizedItem = localStorage.getItem(itemName);
+        const serializedItem = localStorage.getItem(itemName);
 
-        if (serailizedItem) {
-            return JSON.parse(serailizedItem);
+        if (serializedItem) {
+            return JSON.parse(serializedItem);
         }
 
         return undefined;
