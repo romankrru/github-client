@@ -1,26 +1,16 @@
 // @flow
 import React from 'react';
 import { Form, Input, Button } from 'semantic-ui-react';
-import { compose, withStateHandlers, withHandlers, withPropsOnChange } from 'recompose';
+import { compose, withStateHandlers, withHandlers, withPropsOnChange, type HOC} from 'recompose';
 import base64 from 'base-64';
+import type {RouterHistory} from 'react-router';
 
 import { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, AUTH_URL_PATH } from '../settings';
 import { localStorageHelpers } from '../generic/helpers';
 import Notification from '../generic/Notification';
 import styles from './assets/index.module.css';
 
-const Auth = (props: {
-    onChange: Function,
-    signIn: Function,
-    isLoading: boolean,
-    isValid: boolean,
-    errorNotificationShownAt: string,
-
-    form: {
-        login: string,
-        password: string,
-    },
-}) => (
+const Auth = (props) => (
     <div className={styles.Login}>
         <h1>Sign in via Github</h1>
 
@@ -62,7 +52,7 @@ const Auth = (props: {
     </div>
 );
 
-export default compose(
+const enhance: HOC<*, {history: RouterHistory}> = compose(
     withStateHandlers(
         {
             form: { login: '', password: '' },
@@ -85,7 +75,7 @@ export default compose(
                 },
             }),
 
-            showErrorNotification: () => () => ({ errorNotificationShownAt: new Date() }),
+            showErrorNotification: () => () => ({ errorNotificationShownAt: (new Date()).toString() }),
             setIsLoading: () => value => ({ isLoading: value }),
         },
     ),
@@ -114,7 +104,9 @@ export default compose(
                     note: 'not abuse',
                 }),
             })
+
                 .then(res => res.json())
+
                 .then((json) => {
                     props.setIsLoading(false);
 
@@ -134,4 +126,6 @@ export default compose(
         ['form'],
         props => ({ isValid: props.form.password.length > 0 && props.form.login.length > 0 }),
     ),
-)(Auth);
+);
+
+export default enhance(Auth);
