@@ -131,7 +131,7 @@ export default compose(
     }),
 
     withPropsOnChange(
-        'form',
+        ['form'],
         props => ({ isValid: props.form.password.length > 0 && props.form.login.length > 0 }),
     ),
 )(Auth);
