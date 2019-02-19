@@ -1,14 +1,15 @@
 // @flow
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
-import { lifecycle } from 'recompose';
 
 import { localStorageHelpers } from '../generic/helpers';
 
-const Logout = () => <Redirect to="/auth" />;
-
-export default lifecycle({
-    componentDidMount() {
+const Logout = () => {
+    useEffect(() => {
         localStorageHelpers.remove('AUTH_TOKEN');
-    },
-})(Logout);
+    }, []);
+
+    return <Redirect to="/auth" />
+};
+
+export default Logout;
