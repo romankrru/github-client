@@ -33,6 +33,7 @@ const client = new ApolloClient({
 });
 
 const App = () => (
+    // FIXME: remove ApolloProvider later
     <ApolloProvider client={client}>
         <ApolloHooksProvider client={client}>
             <Layout>
