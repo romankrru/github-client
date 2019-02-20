@@ -1,13 +1,12 @@
 // @flow
-import React from 'react';
+import React, {useState} from 'react';
 import _ from 'lodash';
 import {Grid, Loader} from 'semantic-ui-react';
-import {graphql} from 'react-apollo';
-import {compose, withStateHandlers, withPropsOnChange} from 'recompose';
 import {loader} from 'graphql.macro';
+import {useQuery} from 'react-apollo-hooks';
+import {type ApolloQueryResult} from 'apollo-client';
 
 import {FETCHED_ITEMS_LIMIT} from '../../settings';
-import {withDebouncedProps, withInfiniteScroll} from '../../generic/hoc';
 import {transformToGithubQueryString} from '../../generic/helpers';
 import SearchBox from './SearchBox';
 import DetailsModal from './DetailsModal';
@@ -15,7 +14,7 @@ import Result from './Result';
 import Filter from './Filter';
 import ItemsCount from './ItemsCount';
 import styles from './assets/index.module.css';
-import type {TRepo, TFilters} from './typedefs';
+import {type TRepo} from './typedefs';
 const repositoriesQuery = loader('./gql/repositoriesQuery.graphql');
 
 const defaultFilters = {
@@ -26,158 +25,120 @@ const defaultFilters = {
 	size: '',
 };
 
-const Discover = (props: {
-	data: {
-		loading: boolean,
-		search?: {edges: Array<{node: TRepo}>},
-	},
+// FIXME:
+const isFetchMoreLoading = false;
 
-	itemsTotalCount: number,
-	itemsLoadedCount: number,
-	isDetailsModalOpen: boolean,
-	isFetchMoreLoading: boolean,
-	closeDetailsModal: Function,
-	detailsModalData: ?TRepo,
-	openDetailsModal: Function,
-	searchBox: string,
-	handleInputChange: Function,
-	handleFilterChange: Function,
-	resetFilters: Function,
-	filters: TFilters,
-}) => {
+const Discover = (props: {||}) => {
+	console.log(props)
+
+	const [searchBoxValue, setSearchBoxValue] = useState('');
+	const [filters, setFilters] = useState(defaultFilters);
+
+	const [detailsModalState, setDetailsModalState] = useState({
+		isOpen: false,
+		data: null,
+	});
+
+	const queryResult: ApolloQueryResult<{
+		search?: {edges: Array<{node: TRepo}>},
+	}> = useQuery(repositoriesQuery, {
+		variables: {
+			limit: FETCHED_ITEMS_LIMIT,
+
+			queryString: transformToGithubQueryString({
+				// FIXME: debounce
+				search: searchBoxValue,
+				filters: filters,
+			}),
+		},
+	});
+
+	const handleFilterChange = (
+		a,
+		data: {
+			name: string,
+			value: string,
+		},
+	) =>
+		setFilters({
+			...filters,
+			[data.name]: data.value,
+		});
+
+	const resetFilters = () => setFilters(defaultFilters);
+
+	const openDetailsModal = (data: TRepo) =>
+		setDetailsModalState({
+			isOpen: true,
+			data: data,
+		});
+
+	const closeDetailsModal = () =>
+		setDetailsModalState({
+			isOpen: false,
+			data: null,
+		});
+
+	const itemsTotalCount: number = _.get(
+		queryResult.data,
+		'search.repositoryCount',
+		0,
+	);
+
+	const itemsLoadedCount: number = _.get(queryResult.data, 'search.edges', [])
+		.length;
+
 	return (
 		<Grid>
 			<Grid.Row>
 				<Grid.Column>
 					<SearchBox
-						loading={props.data.loading}
-						value={props.searchBox}
-						onChange={props.handleInputChange}
+						loading={queryResult.loading}
+						value={searchBoxValue}
+						onChange={(a, data) => setSearchBoxValue(data.value)}
 					/>
 				</Grid.Column>
 			</Grid.Row>
 
-			{props.data.search && (
+			{queryResult.data.search && (
 				<Grid.Row>
 					<Grid.Column width={4}>
 						<Filter
-							filters={props.filters}
-							handleFilterChange={props.handleFilterChange}
-							resetFilters={props.resetFilters}
-							isLoading={props.data.loading}
+							filters={filters}
+							handleFilterChange={handleFilterChange}
+							resetFilters={resetFilters}
+							isLoading={queryResult.loading}
 							defaultFilters={defaultFilters}
 						/>
 					</Grid.Column>
 
 					<Grid.Column width={12}>
-						<Result data={props.data.search.edges} openDetailsModal={props.openDetailsModal} />
+						<Result
+							data={queryResult.data.search.edges}
+							openDetailsModal={openDetailsModal}
+						/>
 
 						<Loader
 							className={styles.FetchMoreLoader}
-							active={props.isFetchMoreLoading}
+							active={isFetchMoreLoading}
 							inline="centered"
 						/>
 					</Grid.Column>
 				</Grid.Row>
 			)}
 
-			<ItemsCount itemsTotalCount={props.itemsTotalCount} itemsLoadedCount={props.itemsLoadedCount} />
+			<ItemsCount
+				itemsTotalCount={itemsTotalCount}
+				itemsLoadedCount={itemsLoadedCount}
+			/>
+
 			<DetailsModal
-				isOpen={props.isDetailsModalOpen}
-				close={props.closeDetailsModal}
-				data={props.detailsModalData}
+				isOpen={detailsModalState.isOpen}
+				close={closeDetailsModal}
+				data={detailsModalState.data}
 			/>
 		</Grid>
 	);
 };
 
-export default compose(
-	// $FlowFixMe
-	withStateHandlers(
-		{
-			searchBox: '',
-			filters: defaultFilters,
-			isDetailsModalOpen: false,
-			detailsModalData: null,
-		},
-
-		{
-			handleInputChange: () => (
-				_a,
-				data: {
-					name: string,
-					value: string,
-				},
-			) => ({[data.name]: data.value}),
-
-			handleFilterChange: props => (
-				_a,
-				data: {
-					name: string,
-					value: string,
-				},
-			) => ({
-				filters: {
-					...props.filters,
-					[data.name]: data.value,
-				},
-			}),
-
-			resetFilters: () => () => ({filters: defaultFilters}),
-
-			openDetailsModal: () => (data: TRepo) => ({
-				isDetailsModalOpen: true,
-				detailsModalData: data,
-			}),
-
-			closeDetailsModal: () => () => ({isDetailsModalOpen: false, detailsModalData: null}),
-		},
-	),
-
-	// this is the easiest way to debounce graphql query
-	withDebouncedProps({debounce: 300, propNames: ['searchBox', 'filters']}),
-
-	graphql(repositoriesQuery, {
-		options: props => ({
-			variables: {
-				limit: FETCHED_ITEMS_LIMIT,
-
-				queryString: transformToGithubQueryString({
-					search: props.searchBoxDebounced,
-					filters: props.filtersDebounced,
-				}),
-			},
-		}),
-	}),
-
-	withPropsOnChange(['data'], props => ({
-		itemsTotalCount: _.get(props.data, 'search.repositoryCount', 0),
-		itemsLoadedCount: _.get(props.data, 'search.edges', []).length,
-	})),
-
-	withInfiniteScroll(props => ({
-		query: repositoriesQuery,
-		fetchMore: props.data.fetchMore,
-		isAllItemsLoaded: props.itemsTotalCount <= props.itemsLoadedCount,
-
-		variables: {
-			limit: FETCHED_ITEMS_LIMIT,
-			cursor: _.last(props.data.search.edges).cursor,
-
-			queryString: transformToGithubQueryString({
-				search: props.searchBoxDebounced,
-				filters: props.filtersDebounced,
-			}),
-		},
-
-		update: (prevResult, newResult) => ({
-			...prevResult,
-
-			search: {
-				...prevResult.search,
-
-				edges: [...prevResult.search.edges, ...newResult.fetchMoreResult.search.edges],
-			},
-		}),
-	})),
-)(Discover);
+export default Discover;
