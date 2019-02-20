@@ -7,7 +7,8 @@ import {useQuery} from 'react-apollo-hooks';
 import {type ApolloQueryResult} from 'apollo-client';
 
 import {FETCHED_ITEMS_LIMIT} from '../../settings';
-import {transformToGithubQueryString} from '../../generic/helpers';
+import transformToGithubQueryString from '../../generic/helpers/transform-to-github-query-string';
+import useDebounce from '../../generic/hooks/use-debounce';
 import SearchBox from './SearchBox';
 import DetailsModal from './DetailsModal';
 import Result from './Result';
@@ -29,10 +30,10 @@ const defaultFilters = {
 const isFetchMoreLoading = false;
 
 const Discover = (props: {||}) => {
-	console.log(props)
-
 	const [searchBoxValue, setSearchBoxValue] = useState('');
 	const [filters, setFilters] = useState(defaultFilters);
+	const debouncedSearchBoxValue = useDebounce(searchBoxValue, 300);
+	const debouncedFilters = useDebounce(filters, 300);
 
 	const [detailsModalState, setDetailsModalState] = useState({
 		isOpen: false,
@@ -46,9 +47,8 @@ const Discover = (props: {||}) => {
 			limit: FETCHED_ITEMS_LIMIT,
 
 			queryString: transformToGithubQueryString({
-				// FIXME: debounce
-				search: searchBoxValue,
-				filters: filters,
+				search: debouncedSearchBoxValue,
+				filters: debouncedFilters,
 			}),
 		},
 	});
