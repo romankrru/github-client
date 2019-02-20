@@ -6,6 +6,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
 import { ApolloLink, concat } from 'apollo-link';
 import { Route, Switch, Redirect } from 'react-router-dom';
+import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks';
 
 import { localStorageHelpers } from '../generic/helpers';
 import Layout from '../generic/Layout';
@@ -33,13 +34,15 @@ const client = new ApolloClient({
 
 const App = () => (
     <ApolloProvider client={client}>
-        <Layout>
-            <Switch>
-                <Route path="/" exact component={Home} />
-                <Route path="/discover" component={Discover} />
-                <Redirect to="/" />
-            </Switch>
-        </Layout>
+        <ApolloHooksProvider client={client}>
+            <Layout>
+                <Switch>
+                    <Route path="/" exact component={Home} />
+                    <Route path="/discover" component={Discover} />
+                    <Redirect to="/" />
+                </Switch>
+            </Layout>
+        </ApolloHooksProvider>
     </ApolloProvider>
 );
 
