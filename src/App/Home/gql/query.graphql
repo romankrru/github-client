@@ -1,17 +1,19 @@
-{
-  viewer {
-        login
-        avatarUrl
-        bio
-        createdAt
-        repositories(first: 30, privacy: PUBLIC) {
-            totalCount
-            nodes {
-                    id
-                    name
-                    isFork
-                    createdAt
-            }
-        }
-  }
+query Home {
+	viewer {
+		login
+		avatarUrl
+		bio
+		createdAt
+
+		repositories(first: 30, privacy: PUBLIC) {
+			totalCount
+
+			nodes {
+				id
+				name
+				isFork
+				createdAt
+			}
+		}
+	}
 }

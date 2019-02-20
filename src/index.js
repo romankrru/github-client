@@ -1,23 +1,22 @@
-import React, { Fragment } from 'react';
+// @flow
+import React, {Fragment} from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
 
 import Auth from './Auth';
 import App from './App';
 import Logout from './Logout';
-import 'semantic-ui-css/semantic.min.css'
+import 'semantic-ui-css/semantic.min.css';
 
 const app = (
-    <Router>
-        <Fragment>
-            <Route path="/auth" exact component={Auth} />
-            <Route path="/logout" exact component={Logout} />
-            <Route path="/" component={App} />
-        </Fragment>
-    </Router>
+	<Router>
+		<Fragment>
+			<Route path="/auth" exact component={Auth} />
+			<Route path="/logout" exact component={Logout} />
+			<Route path="/" component={App} />
+		</Fragment>
+	</Router>
 );
 
-ReactDOM.render(
-    app,
-    document.getElementById('root'),
-);
+const root = document.getElementById('root');
+if (root) ReactDOM.render(app, root);

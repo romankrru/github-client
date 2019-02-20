@@ -6,9 +6,9 @@ import moment from 'moment';
 import { DATE_FORMAT_M_D_Y } from '../../../settings';
 import type { TViewer } from '../typedefs';
 
-const UserInfo = (props: {
+const UserInfo = (props: {|
     data: TViewer,
-}) => (
+|}) => (
     <Card>
         <Image src={props.data.avatarUrl} />
 

@@ -1,4 +1,4 @@
-export { default as programmingLanguages } from './programming-languages';
+export {default as programmingLanguages} from './programming-languages';
 
 export const NOTIFICATION_TIMEOUT = 2500;
 export const TRANSITION_TIMEOUT = 200;
