@@ -110,17 +110,6 @@ const Auth = (props: $Exact<{history: RouterHistory}>) => {
 					Sign in
 				</Button>
 			</Form>
-
-			<Button
-				primary
-				onClick={() =>
-					notificationDispatcher.info({
-						message: 'This is test notification!',
-					})
-				}
-			>
-				Show notification!
-			</Button>
 		</div>
 	);
 };
