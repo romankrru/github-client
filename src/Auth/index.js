@@ -1,15 +1,6 @@
 // @flow
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {Form, Input, Button} from 'semantic-ui-react';
-
-import {
-	compose,
-	withStateHandlers,
-	withHandlers,
-	withPropsOnChange,
-	type HOC,
-} from 'recompose';
-
 import base64 from 'base-64';
 import type {RouterHistory} from 'react-router';
 
@@ -23,8 +14,67 @@ import {useNotification} from '../generic/NotificationManager';
 import {localStorageHelpers} from '../generic/helpers';
 import styles from './assets/index.module.css';
 
-const Auth = props => {
+const Auth = (props: $Exact<{history: RouterHistory}>) => {
 	const notificationDispatcher = useNotification();
+	const [formState, setFormState] = useState({login: '', password: ''});
+	const [isValid, setIsValid] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
+
+	const onChange = (
+		_,
+		data: {name: $Keys<typeof formState>, value: string},
+	) =>
+		setFormState({
+			...formState,
+			[data.name]: data.value,
+		});
+
+	const signIn = () => {
+		const bytes = `${formState.login.trim()}:${formState.password.trim()}`;
+		const encoded = base64.encode(bytes);
+
+		setIsLoading(true);
+
+		return fetch(AUTH_URL_PATH, {
+			method: 'POST',
+
+			headers: {
+				Authorization: `Basic ${encoded}`,
+				'User-Agent': 'GitHub Issue Browser',
+				'Content-Type': 'application/json; charset=utf-8',
+				Accept: 'application/vnd.github.inertia-preview+json',
+			},
+
+			body: JSON.stringify({
+				client_id: GITHUB_CLIENT_ID,
+				client_secret: GITHUB_CLIENT_SECRET,
+				scopes: ['user', 'repo', 'read:org'],
+				note: 'not abuse',
+			}),
+		})
+			.then(res => res.json())
+
+			.then(json => {
+				setIsLoading(false);
+
+				if (!json.token) {
+					setFormState({...formState, password: ''});
+
+					notificationDispatcher.error({
+						message: 'Invalid password or email.',
+					});
+
+					return;
+				}
+
+				localStorageHelpers.save('AUTH_TOKEN', json.token);
+				props.history.replace('/');
+			});
+	};
+
+	useEffect(() => {
+		setIsValid(formState.password.length > 0 && formState.login.length > 0);
+	}, [formState]);
 
 	return (
 		<div className={styles.Login}>
@@ -36,8 +86,8 @@ const Auth = props => {
 					label="Login"
 					name="login"
 					placeholder="Login"
-					onChange={props.onChange}
-					value={props.form.login}
+					onChange={onChange}
+					value={formState.login}
 				/>
 
 				<Form.Field
@@ -45,104 +95,34 @@ const Auth = props => {
 					label="Password"
 					name="password"
 					placeholder="Password"
-					onChange={props.onChange}
+					onChange={onChange}
 					type="password"
-					value={props.form.password}
+					value={formState.password}
 				/>
 
 				<Button
-					onClick={props.signIn}
+					onClick={signIn}
 					primary
 					className={styles.Button}
-					disabled={!props.isValid || props.isLoading}
-					loading={props.isLoading}
+					disabled={!isValid || isLoading}
+					loading={isLoading}
 				>
 					Sign in
 				</Button>
 			</Form>
 
-			<Button primary onClick={() => notificationDispatcher.info({message: 'This is test notification!'})}>
+			<Button
+				primary
+				onClick={() =>
+					notificationDispatcher.info({
+						message: 'This is test notification!',
+					})
+				}
+			>
 				Show notification!
 			</Button>
 		</div>
 	);
 };
 
-const enhance: HOC<*, {history: RouterHistory}> = compose(
-	withStateHandlers(
-		{
-			form: {login: '', password: ''},
-			errorNotificationShownAt: '',
-			isLoading: false,
-		},
-
-		{
-			onChange: props => (_, data: {name: string, value: string}) => ({
-				form: {
-					...props.form,
-					[data.name]: data.value,
-				},
-			}),
-
-			resetPassword: props => () => ({
-				form: {
-					...props.form,
-					password: '',
-				},
-			}),
-
-			showErrorNotification: () => () => ({
-				errorNotificationShownAt: new Date().toString(),
-			}),
-
-			setIsLoading: () => value => ({isLoading: value}),
-		},
-	),
-
-	withHandlers({
-		signIn: props => () => {
-			const bytes = `${props.form.login.trim()}:${props.form.password.trim()}`;
-			const encoded = base64.encode(bytes);
-
-			props.setIsLoading(true);
-
-			return fetch(AUTH_URL_PATH, {
-				method: 'POST',
-
-				headers: {
-					Authorization: `Basic ${encoded}`,
-					'User-Agent': 'GitHub Issue Browser',
-					'Content-Type': 'application/json; charset=utf-8',
-					Accept: 'application/vnd.github.inertia-preview+json',
-				},
-
-				body: JSON.stringify({
-					client_id: GITHUB_CLIENT_ID,
-					client_secret: GITHUB_CLIENT_SECRET,
-					scopes: ['user', 'repo', 'read:org'],
-					note: 'not abuse',
-				}),
-			})
-				.then(res => res.json())
-
-				.then(json => {
-					props.setIsLoading(false);
-
-					if (!json.token) {
-						props.resetPassword();
-						props.showErrorNotification();
-						return;
-					}
-
-					localStorageHelpers.save('AUTH_TOKEN', json.token);
-					props.history.replace('/');
-				});
-		},
-	}),
-
-	withPropsOnChange(['form'], props => ({
-		isValid: props.form.password.length > 0 && props.form.login.length > 0,
-	})),
-);
-
-export default enhance(Auth);
+export default Auth;
