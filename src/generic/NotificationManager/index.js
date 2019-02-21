@@ -1,13 +1,28 @@
-import React, {useContext, useReducer} from 'react';
+// @flow
+import React, {useContext, useReducer, type Node} from 'react';
 import cn from 'classnames';
-import { Message } from 'semantic-ui-react';
+import {Message} from 'semantic-ui-react';
 
 import Portal from '../Portal';
 import styles from './assets/index.module.css';
 
-
 let globalId = 0;
-const NotificationContext = React.createContext();
+
+type TNotificationFn = ({message: string, isHighPriority?: boolean}) => void;
+
+const NotificationContext = React.createContext<{
+	info: TNotificationFn,
+	warning: TNotificationFn,
+	error: TNotificationFn,
+	success: TNotificationFn,
+	clearAll: () => void,
+}>({
+	info: () => {},
+	warning: () => {},
+	error: () => {},
+	success: () => {},
+	clearAll: () => {},
+});
 
 const actionsTypes = {
 	SHOW: 'SHOW',
@@ -33,7 +48,7 @@ const notificationReducer = (state, action) => {
 	}
 };
 
-const NotificationProvider = props => {
+const NotificationProvider = (props: {children: Node}) => {
 	const [notificationQueue, notificationDispatch] = useReducer(
 		notificationReducer,
 		[],
@@ -69,6 +84,7 @@ const NotificationProvider = props => {
 					warning: createNotification('warning'),
 					error: createNotification('error'),
 					success: createNotification('success'),
+
 					clearAll: () =>
 						notificationDispatch({type: actionsTypes.CLEAR_ALL}),
 				}),
@@ -88,8 +104,6 @@ const NotificationProvider = props => {
 						>
 							{item.message}
 						</Message>
-
-
 					))}
 				</div>
 			</Portal>
