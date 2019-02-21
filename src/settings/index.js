@@ -1,3 +1,4 @@
+// @flow
 export {default as programmingLanguages} from './programming-languages';
 
 export const NOTIFICATION_TIMEOUT = 2500;
