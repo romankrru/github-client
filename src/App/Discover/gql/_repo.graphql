@@ -1,16 +1,22 @@
 fragment Repo on Repository {
-    id
-    name
-    description
-    url
-    
-    languages(first: 4) {
-        edges {
-            node { name }
-        }
-    }
+	id
+	name
+	description
+	url
 
-    stargazers { totalCount }
-    forks { totalCount }
-    updatedAt
+	languages(first: 4) {
+		edges {
+			node {
+				name
+			}
+		}
+	}
+
+	stargazers {
+		totalCount
+	}
+	forks {
+		totalCount
+	}
+	updatedAt
 }

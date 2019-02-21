@@ -1,84 +1,83 @@
 // @flow
-import React from 'react';
+import React, {useMemo} from 'react';
 import _ from 'lodash';
-import { Form, Segment, Button } from 'semantic-ui-react';
-import { withPropsOnChange } from 'recompose';
+import {Form, Segment, Button} from 'semantic-ui-react';
 
-import { programmingLanguages } from '../../../settings';
-import type { TFilters } from '../typedefs';
+import {programmingLanguages} from '../../../settings';
+import type {TFilters} from '../typedefs';
 
-const propgramminLanguagesOptions = programmingLanguages.map(language => ({
-    key: language,
-    text: language,
-    value: language,
+const programmingLanguagesOptions = programmingLanguages.map(language => ({
+	key: language,
+	text: language,
+	value: language,
 }));
 
 const Filter = (props: {
-    filters: TFilters,
-    handleFilterChange: Function,
-    isResetButtonShown: boolean,
-    resetFilters: Function,
-}) => (
-    <Segment>
-        <Form>
-            <h3>Additional filters:</h3>
+	defaultFilters: TFilters,
+	filters: TFilters,
+	handleFilterChange: Function,
+	resetFilters: Function,
+}) => {
+	const isResetButtonShown = useMemo(
+		() => !_.isEqual(props.defaultFilters, props.filters),
+		[props.filters],
+	);
 
-            <Form.Input
-                label="From these owner"
-                value={props.filters.user}
-                name="user"
-                onChange={props.handleFilterChange}
-            />
+	return (
+		<Segment>
+			<Form>
+				<h3>Additional filters:</h3>
 
-            <Form.Select
-                label="Language"
-                value={props.filters.language}
-                name="language"
-                options={propgramminLanguagesOptions}
-                onChange={props.handleFilterChange}
-            />
+				<Form.Input
+					label="From these owner"
+					value={props.filters.user}
+					name="user"
+					onChange={props.handleFilterChange}
+				/>
 
-            <Form.Input
-                placeholder="0...100, >200, 300, etc."
-                label="Stars"
-                value={props.filters.stars}
-                name="stars"
-                onChange={props.handleFilterChange}
-            />
+				<Form.Select
+					label="Language"
+					value={props.filters.language}
+					name="language"
+					options={programmingLanguagesOptions}
+					onChange={props.handleFilterChange}
+				/>
 
-            <Form.Input
-                placeholder="0...100, >200, 300, etc."
-                label="Forks"
-                value={props.filters.forks}
-                name="forks"
-                onChange={props.handleFilterChange}
-            />
+				<Form.Input
+					placeholder="0...100, >200, 300, etc."
+					label="Stars"
+					value={props.filters.stars}
+					name="stars"
+					onChange={props.handleFilterChange}
+				/>
 
-            <Form.Input
-                placeholder="Repo size in KB"
-                label="Size"
-                value={props.filters.size}
-                name="size"
-                onChange={props.handleFilterChange}
-            />
+				<Form.Input
+					placeholder="0...100, >200, 300, etc."
+					label="Forks"
+					value={props.filters.forks}
+					name="forks"
+					onChange={props.handleFilterChange}
+				/>
 
-            { props.isResetButtonShown &&
-                <Button
-                    content="Reset filters"
-                    color="red"
-                    onClick={props.resetFilters}
-                    fluid
-                />
-            }
-        </Form>
-    </Segment>
-);
+				<Form.Input
+					placeholder="Repo size in KB"
+					label="Size"
+					value={props.filters.size}
+					name="size"
+					onChange={props.handleFilterChange}
+				/>
 
-export default withPropsOnChange(
-    'filters',
+				{isResetButtonShown && (
+					<Button
+						content="Reset filters"
+						color="red"
+						onClick={props.resetFilters}
+						fluid
+					/>
+				)}
+			</Form>
+		</Segment>
+	);
+};
 
-    props => ({
-        isResetButtonShown: !_.isEqual(props.defaultFilters, props.filters),
-    }),
-)(Filter);
-
+export default Filter;

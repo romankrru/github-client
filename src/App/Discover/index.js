@@ -100,18 +100,18 @@ const Discover = (props: {||}) => {
 				</Grid.Column>
 			</Grid.Row>
 
-			{queryResult.data.search && (
-				<Grid.Row>
-					<Grid.Column width={4}>
-						<Filter
-							filters={filters}
-							handleFilterChange={handleFilterChange}
-							resetFilters={resetFilters}
-							isLoading={queryResult.loading}
-							defaultFilters={defaultFilters}
-						/>
-					</Grid.Column>
+			<Grid.Row>
+				<Grid.Column width={4}>
+					<Filter
+						filters={filters}
+						handleFilterChange={handleFilterChange}
+						resetFilters={resetFilters}
+						isLoading={queryResult.loading}
+						defaultFilters={defaultFilters}
+					/>
+				</Grid.Column>
 
+				{queryResult.data.search && (
 					<Grid.Column width={12}>
 						<Result
 							data={queryResult.data.search.edges}
@@ -124,19 +124,18 @@ const Discover = (props: {||}) => {
 							inline="centered"
 						/>
 					</Grid.Column>
-				</Grid.Row>
-			)}
+				)}
+			</Grid.Row>
 
 			<ItemsCount
 				itemsTotalCount={itemsTotalCount}
 				itemsLoadedCount={itemsLoadedCount}
 			/>
 
-			<DetailsModal
-				isOpen={detailsModalState.isOpen}
+			{detailsModalState.isOpen && <DetailsModal
 				close={closeDetailsModal}
 				data={detailsModalState.data}
-			/>
+			/>}
 		</Grid>
 	);
 };
