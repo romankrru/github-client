@@ -23,17 +23,19 @@ let onScroll;
 const BackToTop = (props: {
 	toTop: Function,
 	transitionState: TTransitionState,
-}) => (
-	<button
-		onClick={props.toTop}
-		className={cn(
-			styles.BackToTop,
-			styles[`BackToTop-${props.transitionState}`],
-		)}
-	>
-		<div className={styles.text}>Back To Top</div>
-	</button>
-);
+}) => {
+	return (
+		<button
+			onClick={props.toTop}
+			className={cn(
+				styles.BackToTop,
+				styles[`BackToTop-${props.transitionState}`],
+			)}
+		>
+			<div className={styles.text}>Back To Top</div>
+		</button>
+	);
+};
 
 export default compose(
 	withStateHandlers(
