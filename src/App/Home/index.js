@@ -12,9 +12,9 @@ import {type TViewer} from './typedefs';
 const query = loader('./gql/query.graphql');
 
 const Home = (props: {||}) => {
-	const queryResult: ApolloQueryResult<{viewer: TViewer}> = useQuery(query);
+	const queryResult: ApolloQueryResult<{viewer?: TViewer}> = useQuery(query);
 
-	if (queryResult.loading) return <Loader />;
+	if (queryResult.loading || !queryResult.data.viewer) return <Loader />;
 
 	return (
 		<Grid>
@@ -24,7 +24,9 @@ const Home = (props: {||}) => {
 				</Grid.Column>
 
 				<Grid.Column width={12}>
-					<RepositoriesTable data={queryResult.data.viewer.repositories.nodes} />
+					<RepositoriesTable
+						data={queryResult.data.viewer.repositories.nodes}
+					/>
 				</Grid.Column>
 			</Grid.Row>
 		</Grid>
