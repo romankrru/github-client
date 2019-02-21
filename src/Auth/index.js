@@ -1,53 +1,72 @@
 // @flow
 import React from 'react';
 import {Form, Input, Button} from 'semantic-ui-react';
-import {compose, withStateHandlers, withHandlers, withPropsOnChange, type HOC} from 'recompose';
+
+import {
+	compose,
+	withStateHandlers,
+	withHandlers,
+	withPropsOnChange,
+	type HOC,
+} from 'recompose';
+
 import base64 from 'base-64';
 import type {RouterHistory} from 'react-router';
 
-import {GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, AUTH_URL_PATH} from '../settings';
+import {
+	GITHUB_CLIENT_ID,
+	GITHUB_CLIENT_SECRET,
+	AUTH_URL_PATH,
+} from '../settings';
+
+import {useNotification} from '../generic/NotificationManager';
 import {localStorageHelpers} from '../generic/helpers';
-import Notification from '../generic/Notification';
 import styles from './assets/index.module.css';
 
-const Auth = props => (
-	<div className={styles.Login}>
-		<h1>Sign in via Github</h1>
+const Auth = props => {
+	const notificationDispatcher = useNotification();
 
-		<Form>
-			<Form.Field
-				control={Input}
-				label="Login"
-				name="login"
-				placeholder="Login"
-				onChange={props.onChange}
-				value={props.form.login}
-			/>
+	return (
+		<div className={styles.Login}>
+			<h1>Sign in via Github</h1>
 
-			<Form.Field
-				control={Input}
-				label="Password"
-				name="password"
-				placeholder="Password"
-				onChange={props.onChange}
-				type="password"
-				value={props.form.password}
-			/>
+			<Form>
+				<Form.Field
+					control={Input}
+					label="Login"
+					name="login"
+					placeholder="Login"
+					onChange={props.onChange}
+					value={props.form.login}
+				/>
 
-			<Button
-				onClick={props.signIn}
-				primary
-				className={styles.Button}
-				disabled={!props.isValid || props.isLoading}
-				loading={props.isLoading}
-			>
-				Sign in
+				<Form.Field
+					control={Input}
+					label="Password"
+					name="password"
+					placeholder="Password"
+					onChange={props.onChange}
+					type="password"
+					value={props.form.password}
+				/>
+
+				<Button
+					onClick={props.signIn}
+					primary
+					className={styles.Button}
+					disabled={!props.isValid || props.isLoading}
+					loading={props.isLoading}
+				>
+					Sign in
+				</Button>
+			</Form>
+
+			<Button primary onClick={() => notificationDispatcher.info({message: 'This is test notification!'})}>
+				Show notification!
 			</Button>
-		</Form>
-
-		<Notification shownAt={props.errorNotificationShownAt} color="red" text="Invalid login or password" />
-	</div>
-);
+		</div>
+	);
+};
 
 const enhance: HOC<*, {history: RouterHistory}> = compose(
 	withStateHandlers(
@@ -72,7 +91,10 @@ const enhance: HOC<*, {history: RouterHistory}> = compose(
 				},
 			}),
 
-			showErrorNotification: () => () => ({errorNotificationShownAt: new Date().toString()}),
+			showErrorNotification: () => () => ({
+				errorNotificationShownAt: new Date().toString(),
+			}),
+
 			setIsLoading: () => value => ({isLoading: value}),
 		},
 	),
@@ -118,7 +140,9 @@ const enhance: HOC<*, {history: RouterHistory}> = compose(
 		},
 	}),
 
-	withPropsOnChange(['form'], props => ({isValid: props.form.password.length > 0 && props.form.login.length > 0})),
+	withPropsOnChange(['form'], props => ({
+		isValid: props.form.password.length > 0 && props.form.login.length > 0,
+	})),
 );
 
 export default enhance(Auth);
