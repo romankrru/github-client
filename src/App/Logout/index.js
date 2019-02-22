@@ -4,7 +4,7 @@ import Loader from '../../generic/Loader';
 import {useApolloClient} from 'react-apollo-hooks';
 import {type RouterHistory} from 'react-router';
 
-import {localStorageHelpers} from '../../generic/helpers';
+import localStorageHelpers from '../../generic/helpers/local-storage';
 
 const Logout = (props: $Exact<{history: RouterHistory}>) => {
 	const client = useApolloClient();
