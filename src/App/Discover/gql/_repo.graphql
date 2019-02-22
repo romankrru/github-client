@@ -4,6 +4,11 @@ fragment Repo on Repository {
 	description
 	url
 
+	owner {
+		avatarUrl
+		login
+	}
+
 	languages(first: 4) {
 		edges {
 			node {
@@ -15,8 +20,10 @@ fragment Repo on Repository {
 	stargazers {
 		totalCount
 	}
+
 	forks {
 		totalCount
 	}
+
 	updatedAt
 }

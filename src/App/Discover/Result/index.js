@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import _ from 'lodash';
-import {Card, Icon} from 'semantic-ui-react';
+import {Card, Icon, Image} from 'semantic-ui-react';
 
 import styles from './assets/index.module.css';
 import {type TRepo} from '../typedefs';
@@ -14,10 +14,18 @@ const Result = (props: {|
 		{props.data.map(edge => (
 			<Card key={edge.node.id}>
 				<Card.Content
-					header={edge.node.name}
 					onClick={() => props.openDetailsModal(edge.node)}
 					className={styles.CardHeader}
-				/>
+				>
+					<Image
+						floated="right"
+						size="mini"
+						src={edge.node.owner.avatarUrl}
+						alt={edge.node.owner.login}
+					/>
+
+					<Card.Header>{edge.node.name}</Card.Header>
+				</Card.Content>
 
 				<Card.Content
 					className={styles.CardDescription}
@@ -26,12 +34,14 @@ const Result = (props: {|
 					})}
 				/>
 
-				{edge.node.languages.edges[0] && <Card.Content extra>
-					{edge.node.languages.edges[0].node.name} {' | '}
-					<Icon name="star" /> {edge.node.stargazers.totalCount}{' '}
-					{' | '}
-					<Icon name="fork" /> {edge.node.forks.totalCount}
-				</Card.Content>}
+				{edge.node.languages.edges[0] && (
+					<Card.Content extra>
+						{edge.node.languages.edges[0].node.name} {' | '}
+						<Icon name="star" /> {edge.node.stargazers.totalCount}{' '}
+						{' | '}
+						<Icon name="fork" /> {edge.node.forks.totalCount}
+					</Card.Content>
+				)}
 			</Card>
 		))}
 	</Card.Group>

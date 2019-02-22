@@ -9,6 +9,7 @@ export type TRepo = {
 	stargazers: {totalCount: number},
 	updatedAt: string,
 	languages: {edges: Array<{node: {name: string}} | void>},
+	owner: {avatarUrl: string, login: string},
 };
 
 export type TFilters = {
