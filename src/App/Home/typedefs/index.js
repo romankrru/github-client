@@ -1,12 +1,10 @@
 // @flow
-
 export type TRepo = {
 	id: string,
 	isFork: boolean,
 	name: string,
 	createdAt: string,
 };
-
 export type TViewer = {
 	avatarUrl: string,
 	login: string,

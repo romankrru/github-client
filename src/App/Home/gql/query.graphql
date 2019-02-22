@@ -1,5 +1,6 @@
 query Home {
 	viewer {
+		id
 		login
 		avatarUrl
 		bio
@@ -15,5 +16,12 @@ query Home {
 				createdAt
 			}
 		}
+	}
+
+	rateLimit {
+		limit
+		cost
+		remaining
+		resetAt
 	}
 }

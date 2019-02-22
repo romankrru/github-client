@@ -1,0 +1,7 @@
+mutation AddStar($id: ID!) {
+	addStar(input: {starrableId: $id}) {
+		starrable {
+			id
+		}
+	}
+}

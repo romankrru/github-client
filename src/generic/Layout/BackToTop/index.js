@@ -27,6 +27,7 @@ const BackToTop = (props: {
 	return (
 		<button
 			onClick={props.toTop}
+
 			className={cn(
 				styles.BackToTop,
 				styles[`BackToTop-${props.transitionState}`],

@@ -1,0 +1,17 @@
+query AddStarQuery {
+	repository(owner: "romankrru", name: "github-client") {
+		id
+
+		stargazers(last: 100) {
+			nodes {
+				id
+				login
+			}
+		}
+	}
+
+	viewer {
+		login
+		id
+	}
+}
