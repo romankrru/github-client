@@ -12,6 +12,7 @@ import Layout from '../generic/Layout';
 import {withAuthRequired} from '../generic/hoc';
 import Home from './Home';
 import Discover from './Discover';
+import Logout from './Logout';
 
 const httpLink = new HttpLink({uri: 'https://api.github.com/graphql'});
 
@@ -37,6 +38,7 @@ const App = () => (
 			<Switch>
 				<Route path="/" exact component={Home} />
 				<Route path="/discover" component={Discover} />
+				<Route path="/logout" component={Logout} />
 				<Redirect to="/" />
 			</Switch>
 		</Layout>
