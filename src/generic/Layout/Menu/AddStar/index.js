@@ -3,9 +3,10 @@ import React, {useState, Fragment, useEffect} from 'react';
 import produce from 'immer';
 import {Button, Confirm} from 'semantic-ui-react';
 import {type ApolloQueryResult} from 'react-apollo';
-import {useQuery, useMutation} from 'react-apollo-hooks';
+import {useQuery} from 'react-apollo-hooks';
 import {loader} from 'graphql.macro';
 
+import useMutationWrapper from '../../../hooks/use-mutation-wrapper';
 const query = loader('./gql/query.graphql');
 const addStarMutation = loader('./gql/add-star.graphql');
 const removeStarMutation = loader('./gql/remove-star.graphql');
@@ -41,7 +42,7 @@ const AddStar = (props: $Exact<{}>) => {
 	const repo = queryResult.data.repository;
 	const viewer = queryResult.data.viewer;
 
-	const addStar = useMutation(addStarMutation, {
+	const [addStar] = useMutationWrapper(addStarMutation, {
 		variables: {
 			id: repo && repo.id,
 		},
@@ -72,7 +73,7 @@ const AddStar = (props: $Exact<{}>) => {
 		},
 	});
 
-	const removeStar = useMutation(removeStarMutation, {
+	const [removeStar] = useMutationWrapper(removeStarMutation, {
 		variables: {
 			id: repo && repo.id,
 		},
