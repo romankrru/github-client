@@ -56,7 +56,7 @@ const Discover = (props: {||}) => {
 	const handleFilterChange = (
 		a,
 		data: {
-			name: string,
+			name: $Keys<typeof defaultFilters>,
 			value: string,
 		},
 	) =>
